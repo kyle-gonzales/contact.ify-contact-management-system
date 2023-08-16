@@ -1,3 +1,4 @@
+using Contact.ify.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,8 @@ builder.Services.AddDbContext<ContactsContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("ContactsDb"))
 );
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
