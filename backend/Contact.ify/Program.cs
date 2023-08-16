@@ -1,4 +1,6 @@
 using Contact.ify.DataAccess.Data;
+using Contact.ify.DataAccess.UnitOfWork;
+using Contact.ify.Domain.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,9 @@ builder.Services.AddDbContext<ContactsContext>(options =>
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("ContactsDb"))
 );
+
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
