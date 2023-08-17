@@ -1,3 +1,4 @@
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 using Contact.ify.DataAccess.Data;
@@ -6,6 +7,7 @@ using Contact.ify.Domain.Services;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +19,48 @@ builder.Services.AddControllers()
     .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(setup =>
+    {
+        var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+        var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+        setup.IncludeXmlComments(xmlCommentsFullPath);
+        
+        setup.SwaggerDoc("v1", new OpenApiInfo
+        {
+            Title = "Contact.ify API",
+            Description = "An ASP.NET Core Web API for managing contact information",
+            Version = "v1"
+        });
+        
+        setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Paste a valid token below to use this API",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "Bearer"
+        });
+        
+        setup.AddSecurityRequirement(
+            new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
+            }
+        );
+    }
+        
+);
 
 builder.Services.AddDbContext<ContactsContext>(options =>
     options.UseSqlServer(
