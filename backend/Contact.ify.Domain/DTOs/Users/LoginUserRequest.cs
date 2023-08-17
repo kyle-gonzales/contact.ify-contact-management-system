@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Contact.ify.Domain.DTOs;
 
+/// <summary>
+/// A DTO containing login requirements
+/// </summary>
 public class LoginUserRequest
 {
     [Required(ErrorMessage = "The username is required")]

@@ -4,6 +4,9 @@ using Contact.ify.DataAccess.Entities;
 
 namespace Contact.ify.Domain.DTOs;
 
+/// <summary>
+/// A DTO containing user information for account registration
+/// </summary>
 public class RegisterUserRequest
 {
     
