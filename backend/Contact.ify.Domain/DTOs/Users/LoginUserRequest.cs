@@ -5,13 +5,13 @@ namespace Contact.ify.Domain.DTOs;
 
 public class LoginUserRequest
 {
-    [Required]
-    [MinLength(1)]
-    [MaxLength(15)]
+    [Required(ErrorMessage = "The username is required")]
+    [MinLength(1, ErrorMessage = "Username must be at least 1 character long")]
+    [MaxLength(15, ErrorMessage = "Username must not exceed 15 characters")]
     public string UserName { get; set; }
 
-    [Required]
-    [MinLength(6)]
+    [Required(ErrorMessage = "A password is required")]
+    [MinLength(6, ErrorMessage = "Password must be at least 6 characters long")]
     [PasswordPropertyText]
     public string Password { get; set; }
 

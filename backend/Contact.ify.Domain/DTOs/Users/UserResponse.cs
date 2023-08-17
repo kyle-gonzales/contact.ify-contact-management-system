@@ -12,9 +12,9 @@ public class UserResponse
 
     public UserResponse(
         string userName,
-        string firstName = null,
-        string lastName = null,
-        string email = null
+        string? firstName = null,
+        string? lastName = null,
+        string? email = null
     )
     {
         UserName = userName;

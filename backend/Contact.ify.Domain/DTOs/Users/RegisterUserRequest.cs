@@ -7,25 +7,26 @@ namespace Contact.ify.Domain.DTOs;
 public class RegisterUserRequest
 {
     
-    [Required]
-    [MinLength(1)]
-    [MaxLength(15)]
+    [Required(ErrorMessage = "The username is required")]
+    [MinLength(1, ErrorMessage = "Username must be at least 1 character long")]
+    [MaxLength(15, ErrorMessage = "Username must not exceed 15 characters")]
     public string UserName { get; set; }
     
-    [MinLength(1)]
-    [MaxLength(35)]
+    [MinLength(1, ErrorMessage = "Given name must be at least 1 character long")]
+    [MaxLength(35, ErrorMessage = "Given name must not exceed 35 characters")]
     public string? FirstName { get; set; }
     
-    [MinLength(1)]
-    [MaxLength(35)]
+    [MinLength(1, ErrorMessage = "Surname must be at least 1 character long")]
+    [MaxLength(35, ErrorMessage = "Surname must not exceed 35 characters")]
     public string? LastName { get; set; }
     
-    [EmailAddress]
-    [MinLength(4)]
-    [MaxLength(255)]
+    [EmailAddress(ErrorMessage = "The input email is invalid")]
+    [MinLength(4, ErrorMessage = "Email must be at least 4 characters long")]
+    [MaxLength(255, ErrorMessage = "Email must not exceed 255 characters")]
     public string? Email { get; set; }
     
-    [MinLength(6)]
+    [Required(ErrorMessage = "A password is required")]
+    [MinLength(6, ErrorMessage = "Password must be at least 6 characters long")]
     [PasswordPropertyText]
     public string Password { get; set; }
 
