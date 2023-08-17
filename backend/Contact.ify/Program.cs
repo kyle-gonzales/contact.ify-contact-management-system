@@ -3,13 +3,16 @@ using System.Text.Json.Serialization;
 using Contact.ify.DataAccess.Data;
 using Contact.ify.DataAccess.UnitOfWork;
 using Contact.ify.Domain.Services;
+using Hellang.Middleware.ProblemDetails;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+builder.Services.AddProblemDetails(options =>
+    options.IncludeExceptionDetails = (_, _) => false
+);
 builder.Services.AddControllers()
     .AddJsonOptions(option => option.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -45,12 +48,15 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
+app.UseProblemDetails();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+// app.UseExceptionHandler("/Error");
 
 app.UseHttpsRedirection();
 
