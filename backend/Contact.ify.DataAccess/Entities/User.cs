@@ -4,16 +4,15 @@ namespace Contact.ify.DataAccess.Entities;
 
 public class User
 {
-    [Required]
-    [MinLength(1)]
+    [MinLength(2)]
     [MaxLength(15)]
     public string UserId { get; set; }
     
-    [MinLength(1)]
+    [MinLength(2)]
     [MaxLength(35)]
     public string? FirstName { get; set; }
     
-    [MinLength(1)]
+    [MinLength(2)]
     [MaxLength(35)]
     public string? LastName { get; set; }
     
@@ -23,11 +22,8 @@ public class User
     public string? Email { get; set; }
     
     public string PasswordHash { get; set; }
-
-
-    public User()
-    {
-    }
+    
+    public List<Contact> Contacts { get; set; }
 
     public User(
         string userId,
@@ -42,6 +38,9 @@ public class User
         LastName = lastName;
         Email = email;
         PasswordHash = passwordHash;
+
+
+        Contacts = new List<Contact>();
     }
 
 }
