@@ -36,7 +36,7 @@ public class ContactsRepository : IContactsRepository
 
     public async Task<Entities.Contact?> GetContactByIdForUserAsync(string userId, int id)
     {
-        return await _context.Contacts.FirstOrDefaultAsync(c => c.UserId == userId && c.ContactId == id);
+        return await _context.Contacts.FirstOrDefaultAsync(c => c.UserId == userId && c.ContactId == id && !c.IsDeleted);
     }
 
     public async Task<Entities.Contact?> GetContactByIdIncludingRelationsForUserAsync(string userId, int id)
@@ -53,6 +53,9 @@ public class ContactsRepository : IContactsRepository
 
     public async Task<ICollection<Entities.Contact>> GetAllContactsForUserAsync(string userId)
     {
-        return await _context.Contacts.Where(c => c.UserId == userId && !c.IsDeleted).ToListAsync();
+        return await _context.Contacts
+            .Where(c => c.UserId == userId && !c.IsDeleted)
+            .OrderBy(c => c.LastName)
+            .ToListAsync();
     }
 }
