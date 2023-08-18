@@ -1,11 +1,9 @@
-using Contact.ify.DataAccess.Entities;
-using Contact.ify.Domain.DTOs;
+using Contact.ify.Domain.DTOs.Users;
 
-namespace Contact.ify.Domain.Services;
+namespace Contact.ify.Domain.Services.Users;
 
 public interface IUsersService
 {
-    // Task<bool> ValidatePasswordAsync(string password);
     Task<bool> RegisterUserAsync(RegisterUserRequest request);
     Task<string?> LoginUserAsync(LoginUserRequest request);
     Task<UserResponse?> GetUserAsync(string userName);

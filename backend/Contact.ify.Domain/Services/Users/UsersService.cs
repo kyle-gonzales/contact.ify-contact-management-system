@@ -4,11 +4,11 @@ using System.Text;
 using AutoMapper;
 using Contact.ify.DataAccess.Entities;
 using Contact.ify.DataAccess.UnitOfWork;
-using Contact.ify.Domain.DTOs;
+using Contact.ify.Domain.DTOs.Users;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Contact.ify.Domain.Services;
+namespace Contact.ify.Domain.Services.Users;
 
 public class UsersService : IUsersService
 {
@@ -53,9 +53,17 @@ public class UsersService : IUsersService
         return token;
     }
 
-    public Task<UserResponse?> GetUserAsync(string userName)
+    public async Task<UserResponse?> GetUserAsync(string userName)
     {
-        throw new NotImplementedException();
+        var user = await _unitOfWork.Users.GetAsync(userName);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        var response = _mapper.Map<User, UserResponse>(user);
+        return response;
     }
     // helper methods
     private static bool IsValidPassword(string requestPassword, string passwordHash)
