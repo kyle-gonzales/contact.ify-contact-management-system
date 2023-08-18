@@ -1,8 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using Contact.ify.DataAccess.Entities;
 
-namespace Contact.ify.Domain.DTOs;
+namespace Contact.ify.Domain.DTOs.Users;
 
 /// <summary>
 /// A DTO containing user information for account registration
@@ -11,15 +10,15 @@ public class RegisterUserRequest
 {
     
     [Required(ErrorMessage = "The username is required")]
-    [MinLength(1, ErrorMessage = "Username must be at least 1 character long")]
+    [MinLength(2, ErrorMessage = "Username must be at least 2 character long")]
     [MaxLength(15, ErrorMessage = "Username must not exceed 15 characters")]
     public string UserName { get; set; }
     
-    [MinLength(1, ErrorMessage = "Given name must be at least 1 character long")]
+    [MinLength(2, ErrorMessage = "Given name must be at least 2 character long")]
     [MaxLength(35, ErrorMessage = "Given name must not exceed 35 characters")]
     public string? FirstName { get; set; }
     
-    [MinLength(1, ErrorMessage = "Surname must be at least 1 character long")]
+    [MinLength(2, ErrorMessage = "Surname must be at least 2 character long")]
     [MaxLength(35, ErrorMessage = "Surname must not exceed 35 characters")]
     public string? LastName { get; set; }
     

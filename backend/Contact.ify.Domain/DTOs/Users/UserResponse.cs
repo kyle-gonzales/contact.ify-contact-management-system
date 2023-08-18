@@ -1,4 +1,4 @@
-namespace Contact.ify.Domain.DTOs;
+namespace Contact.ify.Domain.DTOs.Users;
 
 public class UserResponse
 {
