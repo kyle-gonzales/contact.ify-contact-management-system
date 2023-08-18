@@ -1,6 +1,7 @@
 using AutoMapper;
 using Contact.ify.DataAccess.Entities;
 using Contact.ify.Domain.DTOs;
+using Contact.ify.Domain.DTOs.Users;
 
 namespace Contact.ify.MappingProfiles;
 
@@ -19,5 +20,7 @@ public class UserProfile : Profile
                     src.FirstName, 
                     src.LastName, 
                     src.Email));
+
+        CreateMap<User, UserResponse>();
     }
 }
