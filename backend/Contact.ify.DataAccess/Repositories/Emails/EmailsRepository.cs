@@ -30,7 +30,7 @@ public class EmailsRepository : IEmailsRepository
 
     public void RemoveEmail(ContactEmail email)
     {
-        _context.Emails.Remove(email);
+        email.IsDeleted = true;
     }
     
     public async Task<ContactEmail?> GetEmailByIdForUserAsync(string userId, int id)
@@ -38,11 +38,15 @@ public class EmailsRepository : IEmailsRepository
         return await _context.Emails
             .FirstOrDefaultAsync(a =>
                 a.Contact.UserId == userId &&
-                a.ContactEmailId == id);
+                a.ContactEmailId == id &&
+                ! a.IsDeleted
+            );
     }
 
     public async Task<ICollection<ContactEmail>?> GetAllEmailsForUserAsync(string userId)
     {
-        return await _context.Emails.Where(a => a.Contact.UserId == userId).ToListAsync();
+        return await _context.Emails
+            .Where(a => a.Contact.UserId == userId && !a.IsDeleted)
+            .ToListAsync();
     }
 }

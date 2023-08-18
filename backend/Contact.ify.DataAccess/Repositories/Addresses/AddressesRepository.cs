@@ -36,7 +36,7 @@ public class AddressesRepository : IAddressesRepository
 
     public void RemoveAddress(ContactAddress address)
     {
-        _context.Addresses.Remove(address);
+        address.IsDeleted = true;
     }
     
     public async Task<ContactAddress?> GetAddressByIdForUserAsync(string userId, int id)
@@ -44,11 +44,15 @@ public class AddressesRepository : IAddressesRepository
         return await _context.Addresses
             .FirstOrDefaultAsync(a =>
                 a.Contact.UserId == userId &&
-                a.ContactAddressId == id);
+                a.ContactAddressId == id &&
+                ! a.IsDeleted
+            );
     }
 
     public async Task<ICollection<ContactAddress>?> GetAllAddressesForUserAsync(string userId)
     {
-        return await _context.Addresses.Where(a => a.Contact.UserId == userId).ToListAsync();
+        return await _context.Addresses
+            .Where(a => a.Contact.UserId == userId && !a.IsDeleted)
+            .ToListAsync();
     }
 }

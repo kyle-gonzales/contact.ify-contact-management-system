@@ -30,7 +30,7 @@ public class PhoneNumbersRepository : IPhoneNumbersRepository
 
     public void RemovePhoneNumber(ContactPhoneNumber phoneNumber)
     {
-        _context.PhoneNumbers.Remove(phoneNumber);
+        phoneNumber.IsDeleted = true;
     }
     
     public async Task<ContactPhoneNumber?> GetPhoneNumberByIdForUserAsync(string userId, int id)
@@ -38,11 +38,15 @@ public class PhoneNumbersRepository : IPhoneNumbersRepository
         return await _context.PhoneNumbers
             .FirstOrDefaultAsync(a =>
                 a.Contact.UserId == userId &&
-                a.ContactPhoneNumberId == id);
+                a.ContactPhoneNumberId == id &&
+                ! a.IsDeleted
+            );
     }
 
     public async Task<ICollection<ContactPhoneNumber>?> GetAllPhoneNumbersForUserAsync(string userId)
     {
-        return await _context.PhoneNumbers.Where(a => a.Contact.UserId == userId).ToListAsync();
+        return await _context.PhoneNumbers
+            .Where(a => a.Contact.UserId == userId && ! a.IsDeleted)
+            .ToListAsync();
     }
 }
