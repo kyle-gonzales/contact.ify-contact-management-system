@@ -3,7 +3,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Contact.ify.DataAccess.Data;
 using Contact.ify.DataAccess.UnitOfWork;
-using Contact.ify.Domain.Services;
+using Contact.ify.Domain.Services.Users;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
