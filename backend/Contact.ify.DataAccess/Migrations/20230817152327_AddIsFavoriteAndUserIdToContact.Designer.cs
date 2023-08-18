@@ -4,6 +4,7 @@ using Contact.ify.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contact.ify.DataAccess.Migrations
 {
     [DbContext(typeof(ContactsContext))]
-    partial class ContactsContextModelSnapshot : ModelSnapshot
+    [Migration("20230817152327_AddIsFavoriteAndUserIdToContact")]
+    partial class AddIsFavoriteAndUserIdToContact
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -55,9 +58,7 @@ namespace Contact.ify.DataAccess.Migrations
 
                     b.HasKey("ContactId");
 
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Contacts", (string)null);
+                    b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.ContactAddress", b =>
@@ -102,7 +103,7 @@ namespace Contact.ify.DataAccess.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("Addresses", (string)null);
+                    b.ToTable("Addresses");
                 });
 
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.ContactAudit", b =>
@@ -128,7 +129,7 @@ namespace Contact.ify.DataAccess.Migrations
 
                     b.HasKey("ContactAuditId");
 
-                    b.ToTable("ContactAuditTrail", (string)null);
+                    b.ToTable("ContactAuditTrail");
                 });
 
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.ContactEmail", b =>
@@ -154,7 +155,7 @@ namespace Contact.ify.DataAccess.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("Emails", (string)null);
+                    b.ToTable("Emails");
                 });
 
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.ContactPhoneNumber", b =>
@@ -180,7 +181,7 @@ namespace Contact.ify.DataAccess.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("PhoneNumbers", (string)null);
+                    b.ToTable("PhoneNumbers");
                 });
 
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.User", b =>
@@ -207,16 +208,7 @@ namespace Contact.ify.DataAccess.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("Contact.ify.DataAccess.Entities.Contact", b =>
-                {
-                    b.HasOne("Contact.ify.DataAccess.Entities.User", null)
-                        .WithMany("Contacts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.ContactAddress", b =>
@@ -251,11 +243,6 @@ namespace Contact.ify.DataAccess.Migrations
                     b.Navigation("Emails");
 
                     b.Navigation("PhoneNumbers");
-                });
-
-            modelBuilder.Entity("Contact.ify.DataAccess.Entities.User", b =>
-                {
-                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }
