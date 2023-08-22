@@ -3,6 +3,10 @@ using System.Text;
 using System.Text.Json.Serialization;
 using Contact.ify.DataAccess.Data;
 using Contact.ify.DataAccess.UnitOfWork;
+using Contact.ify.Domain.Services.Addresses;
+using Contact.ify.Domain.Services.Contacts;
+using Contact.ify.Domain.Services.Emails;
+using Contact.ify.Domain.Services.PhoneNumbers;
 using Contact.ify.Domain.Services.Users;
 using Hellang.Middleware.ProblemDetails;
 using Microsoft.EntityFrameworkCore;
@@ -87,6 +91,10 @@ builder.Services
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUsersService, UsersService>();
+builder.Services.AddScoped<IContactsService, ContactsService>();
+builder.Services.AddScoped<IAddressesService, AddressesService>();
+builder.Services.AddScoped<IEmailsService, EmailsService>();
+builder.Services.AddScoped<IPhoneNumbersService, PhoneNumbersService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
