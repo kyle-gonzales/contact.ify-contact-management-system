@@ -36,17 +36,19 @@ public class EmailsRepository : IEmailsRepository
     public async Task<ContactEmail?> GetEmailByIdForUserAsync(string userId, int id)
     {
         return await _context.Emails
-            .FirstOrDefaultAsync(a =>
-                a.Contact.UserId == userId &&
-                a.ContactEmailId == id &&
-                ! a.IsDeleted
+            .Include(email => email.Contact)
+            .FirstOrDefaultAsync(email =>
+                email.Contact.UserId == userId &&
+                email.ContactEmailId == id &&
+                ! email.IsDeleted
             );
     }
 
     public async Task<ICollection<ContactEmail>?> GetAllEmailsForUserAsync(string userId)
     {
         return await _context.Emails
-            .Where(a => a.Contact.UserId == userId && !a.IsDeleted)
+            .Include(email => email.Contact)
+            .Where(email => email.Contact.UserId == userId && !email.IsDeleted)
             .ToListAsync();
     }
 }
