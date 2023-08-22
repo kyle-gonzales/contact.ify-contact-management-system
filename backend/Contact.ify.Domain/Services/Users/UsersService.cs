@@ -97,7 +97,7 @@ public class UsersService : IUsersService
     {
         var claims = new List<Claim>
         {
-            new (ClaimTypes.NameIdentifier, user.UserId)
+            new (ClaimTypes.Name, user.UserId)
         };
         
         if (user.FirstName != null)
