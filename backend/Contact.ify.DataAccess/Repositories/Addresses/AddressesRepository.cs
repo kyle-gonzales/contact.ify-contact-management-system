@@ -42,17 +42,19 @@ public class AddressesRepository : IAddressesRepository
     public async Task<ContactAddress?> GetAddressByIdForUserAsync(string userId, int id)
     {
         return await _context.Addresses
-            .FirstOrDefaultAsync(a =>
-                a.Contact.UserId == userId &&
-                a.ContactAddressId == id &&
-                ! a.IsDeleted
+            .Include(address => address.Contact)
+            .FirstOrDefaultAsync(address =>
+                address.Contact.UserId == userId &&
+                address.ContactAddressId == id &&
+                ! address.IsDeleted
             );
     }
 
-    public async Task<ICollection<ContactAddress>?> GetAllAddressesForUserAsync(string userId)
+    public async Task<ICollection<ContactAddress>> GetAllAddressesForUserAsync(string userId)
     {
         return await _context.Addresses
-            .Where(a => a.Contact.UserId == userId && !a.IsDeleted)
+            .Include(address => address.Contact)
+            .Where(address => address.Contact.UserId == userId && !address.IsDeleted)
             .ToListAsync();
     }
 }
