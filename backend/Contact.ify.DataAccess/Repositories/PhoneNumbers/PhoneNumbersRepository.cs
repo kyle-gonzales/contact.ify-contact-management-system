@@ -36,17 +36,19 @@ public class PhoneNumbersRepository : IPhoneNumbersRepository
     public async Task<ContactPhoneNumber?> GetPhoneNumberByIdForUserAsync(string userId, int id)
     {
         return await _context.PhoneNumbers
-            .FirstOrDefaultAsync(a =>
-                a.Contact.UserId == userId &&
-                a.ContactPhoneNumberId == id &&
-                ! a.IsDeleted
+            .Include(phone => phone.Contact)
+            .FirstOrDefaultAsync(phone =>
+                phone.Contact.UserId == userId &&
+                phone.ContactPhoneNumberId == id &&
+                ! phone.IsDeleted
             );
     }
 
     public async Task<ICollection<ContactPhoneNumber>?> GetAllPhoneNumbersForUserAsync(string userId)
     {
         return await _context.PhoneNumbers
-            .Where(a => a.Contact.UserId == userId && ! a.IsDeleted)
+            .Include(phone => phone.Contact)
+            .Where(phone => phone.Contact.UserId == userId && ! phone.IsDeleted)
             .ToListAsync();
     }
 }
