@@ -12,8 +12,17 @@ public class ContactAuditTrailRepository : IContactAuditTrailRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public void Add(ContactAudit audit)
+    public void Add(int contactId,
+        string modifiedBy,
+        ModificationType modificationType,
+        PropertyUpdated? propertyUpdated = null)
     {
+        var audit = new ContactAudit(
+            contactId,
+            modifiedBy,
+            modificationType,
+            propertyUpdated
+        );
         _context.ContactAuditTrail.Add(audit);
     }
 }
