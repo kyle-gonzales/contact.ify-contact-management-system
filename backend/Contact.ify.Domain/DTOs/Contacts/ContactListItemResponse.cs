@@ -4,13 +4,7 @@ public class ContactListItemResponse
 {
     public int ContactId { get; set; } 
     public string? FirstName { get; set; }
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
     
     public bool IsFavorite { get; set; }
-
-    public ContactListItemResponse(string? firstName, string lastName)
-    {
-        FirstName = firstName;
-        LastName = lastName;
-    }
 }
