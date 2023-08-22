@@ -14,33 +14,19 @@ public class Contact
     [MinLength(2)]
     [MaxLength(35)]
     public string? FirstName { get; set; }
-    
+
     [Required]
     [MinLength(2)]
     [MaxLength(35)]
-    public string LastName { get; set; }
+    public string LastName { get; set; } = string.Empty;
 
-    public List<ContactAddress> Addresses { get; set; }
-    public List<ContactPhoneNumber> PhoneNumbers { get; set; }
-    public List<ContactEmail> Emails { get; set; }
+    public List<ContactAddress> Addresses { get; set; } = new();
+    public List<ContactPhoneNumber> PhoneNumbers { get; set; } = new();
+    public List<ContactEmail> Emails { get; set; } = new();
     
     public bool IsFavorite { get; set; }
     
     public bool IsDeleted { get; set; }
-    public DateTimeOffset LastDateModified { get; set; }
+    public DateTimeOffset LastDateModified { get; set; } = DateTimeOffset.UtcNow;
 
-    public Contact(
-        string lastName,
-        DateTimeOffset lastDateModified,
-        string? firstName = null
-    )
-    {
-        LastName = lastName;
-        LastDateModified = lastDateModified;
-        FirstName = firstName;
-        
-        Addresses = new List<ContactAddress>();
-        PhoneNumbers = new List<ContactPhoneNumber>();
-        Emails = new List<ContactEmail>();
-    }
 }
