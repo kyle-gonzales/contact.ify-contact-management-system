@@ -22,22 +22,4 @@ public class CreateAddressRequest
     public string? ZipCode { get; set; }
     
     public AddressType AddressType { get; set; }
-    
-    public CreateAddressRequest(
-        string? street = null,
-        string? city = null,
-        string? province = null,
-        string? country = null,
-        string? zipCode = null,
-        AddressType addressType = AddressType.Billing
-    )
-    {
-        Street = street;
-        City = city;
-        Province = province;
-        Country = country;
-        ZipCode = zipCode;
-        AddressType = addressType;
-    }
-    
 }
