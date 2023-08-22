@@ -49,19 +49,20 @@ public class ContactsService : IContactsService
         return true;
     }
 
-    public async Task DeleteContact(string userId, int id)
+    public async Task<bool> DeleteContact(string userId, int id)
     {
         var contact = await _unitOfWork.Contacts.GetContactByIdForUserAsync(userId, id);
 
         if (contact is null)
         {
-            return;
+            return false;
         }
         _unitOfWork.Contacts.DeleteContact(contact);
         
         contact.LastDateModified = DateTimeOffset.UtcNow;
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Delete);
         await _unitOfWork.CompleteAsync();
+        return true;
     }
 
     public async Task<ContactFullResponse?> GetContactByIdIncludingRelationsForUserAsync(string userId, int id)
