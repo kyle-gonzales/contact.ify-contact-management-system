@@ -10,6 +10,12 @@ public class EmailProfile : Profile
     {
         CreateMap<CreateEmailRequest, ContactEmail>();
         CreateMap<UpdateEmailRequest, ContactEmail>();
-        CreateMap<ContactEmail, EmailResponse>();
+        CreateMap<ContactEmail, EmailResponse>()
+            .ForMember(
+                response => response.ContactId,
+                option => option.MapFrom(
+                    email => email.Contact.ContactId
+                )
+            );
     }
 }

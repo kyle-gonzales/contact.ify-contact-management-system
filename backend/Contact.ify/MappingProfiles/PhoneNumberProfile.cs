@@ -10,6 +10,11 @@ public class PhoneNumberProfile : Profile
     {
         CreateMap<CreatePhoneNumberRequest, ContactPhoneNumber>();
         CreateMap<UpdatePhoneNumberRequest, ContactPhoneNumber>();
-        CreateMap<ContactPhoneNumber, PhoneNumberResponse>();
+        CreateMap<ContactPhoneNumber, PhoneNumberResponse>()
+            .ForMember(
+                response => response.ContactId,
+                option => 
+                    option.MapFrom(phone => phone.Contact.ContactId)
+            );
     }
 }

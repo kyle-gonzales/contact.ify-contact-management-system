@@ -10,6 +10,12 @@ public class AddressProfile : Profile
     {
         CreateMap<CreateAddressRequest, ContactAddress>();
         CreateMap<UpdateAddressRequest, ContactAddress>();
-        CreateMap<ContactAddress, AddressResponse>();
+        CreateMap<ContactAddress, AddressResponse>()
+            .ForMember(
+                response => response.ContactId,
+                option => option.MapFrom(
+                    address => address.Contact.ContactId
+                )
+            );
     }
 }
