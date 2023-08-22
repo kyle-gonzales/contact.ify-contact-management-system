@@ -9,7 +9,7 @@ public class ContactProfile : Profile
     public ContactProfile()
     {
         CreateMap<CreateContactRequest, DataAccess.Entities.Contact>();
-        CreateMap<UpdateAddressRequest, DataAccess.Entities.Contact>();
+        CreateMap<UpdateContactRequest, DataAccess.Entities.Contact>();
         CreateMap<DataAccess.Entities.Contact, ContactListItemResponse>();
         CreateMap<DataAccess.Entities.Contact, ContactFullResponse>();
     }
