@@ -24,6 +24,10 @@ public class ContactsContext : DbContext
         modelBuilder.Entity<ContactAudit>()
             .Property(audit => audit.ModificationType)
             .HasConversion<string>();
+
+        modelBuilder.Entity<ContactAudit>()
+            .Property(audit => audit.PropertyUpdated)
+            .HasConversion<string>();
         
         base.OnModelCreating(modelBuilder);
     }
