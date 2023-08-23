@@ -28,7 +28,6 @@ public class AddressesService : IAddressesService
         _unitOfWork.Addresses.AddAddress(address);
         
         contact.LastDateModified = DateTimeOffset.UtcNow;
-        
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Update, PropertyUpdated.Addresses);
         await _unitOfWork.CompleteAsync();
         return address.ContactAddressId;
@@ -38,14 +37,20 @@ public class AddressesService : IAddressesService
     {
         var contact = await _unitOfWork.Contacts.GetContactByIdForUserAsync(userId, contactId);
         if (contact is null)
+        {
             return false;
-
-        var address = _mapper.Map<ContactAddress>(request);
-        address.Contact = contact;
-        await _unitOfWork.Addresses.UpdateAddressAsync(address);
+        }
+        var updatedAddress = _mapper.Map<ContactAddress>(request);
+        updatedAddress.Contact = contact;
+        
+        var targetAddress = await _unitOfWork.Addresses.GetAddressByIdForUserAsync(userId, contactId, request.ContactAddressId);
+        if (targetAddress == null)
+        {
+            return false;
+        }
+        _unitOfWork.Addresses.UpdateAddressAsync(targetAddress, updatedAddress);
 
         contact.LastDateModified = DateTimeOffset.UtcNow;
-        
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Update, PropertyUpdated.Addresses);
         await _unitOfWork.CompleteAsync();
         return true;
