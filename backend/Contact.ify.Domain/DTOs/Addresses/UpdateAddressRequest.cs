@@ -22,6 +22,6 @@ public class UpdateAddressRequest
     [MinLength(2, ErrorMessage = "ZipCode should be at least 2 characters long")]
     [MaxLength(10, ErrorMessage = "ZipCode must not exceed 10 characters")]
     public string? ZipCode { get; set; }
-    
+    [Range(minimum:1, maximum:5, ErrorMessage = "Address Type must be between 1 and 5")] // range of enum
     public AddressType AddressType { get; set; }
 }
