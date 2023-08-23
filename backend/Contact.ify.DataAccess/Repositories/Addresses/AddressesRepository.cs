@@ -18,20 +18,14 @@ public class AddressesRepository : IAddressesRepository
         _context.Addresses.Add(address);
     }
 
-    public async Task UpdateAddressAsync(ContactAddress updatedAddress)
+    public void UpdateAddress(ContactAddress targetAddress, ContactAddress updatedAddress)
     {
-        var address = await GetAddressByIdForUserAsync(updatedAddress.Contact.UserId, updatedAddress.ContactAddressId);
-
-        if (address == null) // address does not exist
-        {
-            return;
-        }
-        address.Street = updatedAddress.Street ?? address.Street;
-        address.City = updatedAddress.City ?? address.City;
-        address.Province = updatedAddress.Province ?? address.Province;
-        address.Country = updatedAddress.Country ?? address.Country;
-        address.ZipCode = updatedAddress.ZipCode ?? address.ZipCode;
-        address.AddressType = updatedAddress.AddressType;
+        targetAddress.Street = updatedAddress.Street ?? targetAddress.Street;
+        targetAddress.City = updatedAddress.City ?? targetAddress.City;
+        targetAddress.Province = updatedAddress.Province ?? targetAddress.Province;
+        targetAddress.Country = updatedAddress.Country ?? targetAddress.Country;
+        targetAddress.ZipCode = updatedAddress.ZipCode ?? targetAddress.ZipCode;
+        targetAddress.AddressType = updatedAddress.AddressType;
     }
 
     public void RemoveAddress(ContactAddress address)
