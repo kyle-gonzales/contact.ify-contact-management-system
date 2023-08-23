@@ -2,7 +2,6 @@ using AutoMapper;
 using Contact.ify.DataAccess.Entities;
 using Contact.ify.DataAccess.UnitOfWork;
 using Contact.ify.Domain.DTOs.Contacts;
-using Microsoft.Extensions.Configuration;
 
 namespace Contact.ify.Domain.Services.Contacts;
 
@@ -11,7 +10,7 @@ public class ContactsService : IContactsService
     private readonly IUnitOfWork _unitOfWork;
     private readonly IMapper _mapper;
 
-    public ContactsService(IUnitOfWork unitOfWork, IMapper mapper, IConfiguration configuration)
+    public ContactsService(IUnitOfWork unitOfWork, IMapper mapper)
     {
         _unitOfWork= unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
         _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
