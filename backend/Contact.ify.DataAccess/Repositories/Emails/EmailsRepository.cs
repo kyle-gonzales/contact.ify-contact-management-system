@@ -18,14 +18,9 @@ public class EmailsRepository : IEmailsRepository
         _context.Emails.Add(email);
     }
 
-    public async Task UpdateEmailAsync(ContactEmail updatedEmail)
+    public void UpdateEmail(ContactEmail targetEmail, ContactEmail updatedEmail)
     {
-        var email = await GetEmailByIdForUserAsync(updatedEmail.Contact.UserId, updatedEmail.ContactEmailId);
-        if (email == null) // email does not exist
-        {
-            return;
-        }
-        email.Email = updatedEmail.Email;
+        targetEmail.Email = updatedEmail.Email;
     }
 
     public void RemoveEmail(ContactEmail email)
