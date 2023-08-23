@@ -4,7 +4,7 @@ namespace Contact.ify.Domain.Services.Contacts;
 
 public interface IContactsService
 {
-    Task<int?> AddContact(string userId, CreateContactRequest request);
+    Task<int> AddContact(string userId, CreateContactRequest request);
     Task<bool> UpdateContact(string userId, UpdateContactRequest request);
     Task<bool> DeleteContact(string userId, int id);
 

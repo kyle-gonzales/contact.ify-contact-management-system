@@ -17,12 +17,8 @@ public class ContactsService : IContactsService
     }
 
 
-    public async Task<int?> AddContact(string userId, CreateContactRequest request)
+    public async Task<int> AddContact(string userId, CreateContactRequest request)
     {
-        if (userId != request.UserId)
-        {
-            return null;
-        }
         var contact = _mapper.Map<DataAccess.Entities.Contact>(request);
         _unitOfWork.Contacts.AddContact(contact);
         
