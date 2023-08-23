@@ -62,4 +62,13 @@ public class ContactsRepository : IContactsRepository
             .OrderBy(c => c.LastName)
             .ToListAsync();
     }
+
+    public async Task<bool> ContactExists(string userId, int contactId)
+    {
+        return await _context.Contacts.AnyAsync(c =>
+            c.UserId == userId &&
+            c.ContactId == contactId &&
+            ! c.IsDeleted
+        );
+    }
 }

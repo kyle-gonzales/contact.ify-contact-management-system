@@ -10,5 +10,5 @@ public interface IContactsRepository
     Task<Entities.Contact?> GetContactByIdForUserAsync(string userId, int contactId); 
     Task<Entities.Contact?> GetContactByIdIncludingRelationsForUserAsync (string userId, int contactId);
     Task<ICollection<Entities.Contact>> GetAllContactsForUserAsync(string userId);
-
+    Task<bool> ContactExists(string userId, int contactId);
 }
