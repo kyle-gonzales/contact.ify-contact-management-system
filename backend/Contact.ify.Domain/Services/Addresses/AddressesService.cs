@@ -78,9 +78,15 @@ public class AddressesService : IAddressesService
         return true;
     }
 
-    public async Task<ICollection<AddressResponse>> GetAllAddressesForUserAsync(string userId)
+    public async Task<ICollection<AddressResponse>?> GetAllAddressesForUserAsync(string userId, int contactId)
     {
-        var addresses =  await _unitOfWork.Addresses.GetAllAddressesForUserAsync(userId);
+        var contactExists = await _unitOfWork.Contacts.ContactExists(userId, contactId);
+        if (!contactExists)
+        {
+            return null;
+        }
+        
+        var addresses =  await _unitOfWork.Addresses.GetAllAddressesForUserAsync(userId, contactId);
         var response = _mapper.Map<ICollection<ContactAddress>, ICollection<AddressResponse>>(addresses);
 
         return response;

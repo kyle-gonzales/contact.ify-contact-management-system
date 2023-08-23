@@ -8,6 +8,6 @@ public interface IAddressesService
     Task<bool> UpdateAddressForContactAsync(string userId, int contactId, UpdateAddressRequest request);
     Task<bool> DeleteAddressForUserAsync(string userId, int contactId, int addressId);
     
-    Task<ICollection<AddressResponse>> GetAllAddressesForUserAsync(string userId);
     Task<AddressResponse?> GetAddressByIdForUserAsync(string userId, int id);
+    Task<ICollection<AddressResponse>?> GetAllAddressesForUserAsync(string userId, int contactId);
 }
