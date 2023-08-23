@@ -53,7 +53,7 @@ public class ContactsController : ControllerBase
                 return BadRequest("Username does not match request's User ID");
             }
             
-            var contactId = await _contactsService.AddContact(userName, request);
+            var contactId = await _contactsService.AddContactAsync(userName, request);
 
             return CreatedAtAction(
                 nameof(GetContact),new { id = contactId },contactId);
@@ -154,7 +154,7 @@ public class ContactsController : ControllerBase
                 return BadRequest("Username does not match request's user id");
             }
             
-            var isSuccess = await _contactsService.UpdateContact(userName, request);
+            var isSuccess = await _contactsService.UpdateContactAsync(userName, request);
             if (!isSuccess)
             {
                 return NotFound($"Contact Not Found: Contact with ID '{request.ContactId}' belonging to User '{userName}' does not exist");
@@ -189,7 +189,7 @@ public class ContactsController : ControllerBase
                 return Unauthorized("Missing claims");
             }
 
-            var isSuccess = await _contactsService.DeleteContact(userName, id);
+            var isSuccess = await _contactsService.DeleteContactAsync(userName, id);
             if (!isSuccess)
             {
                 return NotFound($"Contact Not Found: Contact with ID '{id}' belonging to User '{userName}' does not exist");
