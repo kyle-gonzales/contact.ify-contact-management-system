@@ -82,11 +82,17 @@ public class EmailsService : IEmailsService
         return true;
     }
 
-    public async Task<ICollection<EmailResponse>> GetAllEmailsForUserAsync(string userId)
+    public async Task<ICollection<EmailResponse>?> GetAllEmailsForUserAsync(string userId, int contactId)
     {
-        var emails = await _unitOfWork.Emails.GetAllEmailsForUserAsync(userId);
+        var contactExists = await _unitOfWork.Contacts.ContactExistsForUserAsync(userId, contactId);
+        if (!contactExists)
+        {
+            return null;
+        }
+        
+        var emails = await _unitOfWork.Emails.GetAllEmailsForUserAsync(userId, contactId);
+        
         var response = _mapper.Map<ICollection<EmailResponse>>(emails);
-
         return response;
     }
 
