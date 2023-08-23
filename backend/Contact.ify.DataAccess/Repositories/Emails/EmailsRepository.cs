@@ -28,13 +28,14 @@ public class EmailsRepository : IEmailsRepository
         email.IsDeleted = true;
     }
     
-    public async Task<ContactEmail?> GetEmailByIdForUserAsync(string userId, int id)
+    public async Task<ContactEmail?> GetEmailByIdForUserAsync(string userId, int contactId, int emailId)
     {
         return await _context.Emails
             .Include(email => email.Contact)
             .FirstOrDefaultAsync(email =>
                 email.Contact.UserId == userId &&
-                email.ContactEmailId == id &&
+                email.Contact.ContactId == contactId &&
+                email.ContactEmailId == emailId &&
                 ! email.IsDeleted
             );
     }
