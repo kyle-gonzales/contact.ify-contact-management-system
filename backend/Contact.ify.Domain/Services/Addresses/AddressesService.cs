@@ -56,13 +56,19 @@ public class AddressesService : IAddressesService
         return true;
     }
 
-    public async Task<bool> DeleteAddressForUserAsync(string userId, int contactId, int id)
+    public async Task<bool> DeleteAddressForUserAsync(string userId, int contactId, int addressId)
     {
         var contact = await _unitOfWork.Contacts.GetContactByIdForUserAsync(userId, contactId);
-        var address = await _unitOfWork.Addresses.GetAddressByIdForUserAsync(userId, id);
-
-        if (address is null || contact is null)
+        if (contact is null)
+        {
             return false;
+        }
+
+        var address = await _unitOfWork.Addresses.GetAddressByIdForUserAsync(userId, contactId, addressId);
+        if (address is null)
+        {
+            return false;
+        }
         
         _unitOfWork.Addresses.RemoveAddress(address);
         
