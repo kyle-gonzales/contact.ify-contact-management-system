@@ -87,7 +87,7 @@ public class ContactsController : ControllerBase
             var response = await _contactsService.GetContactByIdIncludingRelationsForUserAsync(userName, id);
             if (response is null)
             {
-                return NotFound($"Contact with id '{id}' cannot be found");
+                return NotFound($"Contact Not Found: Contact with ID '{id}' belonging to User '{userName}' does not exist");
             }
             return Ok(response);
         }
