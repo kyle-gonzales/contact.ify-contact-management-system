@@ -28,12 +28,16 @@ public class ContactsRepository : IContactsRepository
         targetContact.LastName = updatedContact.LastName;
     }
 
-    public async Task<Entities.Contact?> GetContactByIdForUserAsync(string userId, int id)
+    public async Task<Entities.Contact?> GetContactByIdForUserAsync(string userId, int contactId)
     {
-        return await _context.Contacts.FirstOrDefaultAsync(c => c.UserId == userId && c.ContactId == id && !c.IsDeleted);
+        return await _context.Contacts.FirstOrDefaultAsync(c => 
+            c.UserId == userId && 
+            c.ContactId == contactId && 
+            !c.IsDeleted
+        );
     }
 
-    public async Task<Entities.Contact?> GetContactByIdIncludingRelationsForUserAsync(string userId, int id)
+    public async Task<Entities.Contact?> GetContactByIdIncludingRelationsForUserAsync(string userId, int contactId)
     {
         return await _context.Contacts
             .Include(c => c.Addresses
@@ -42,13 +46,19 @@ public class ContactsRepository : IContactsRepository
                 .Where(p => ! p.IsDeleted))
             .Include(c => c.Emails
                 .Where( e => ! e.IsDeleted))
-            .FirstOrDefaultAsync(c => c.UserId == userId && c.ContactId == id && !c.IsDeleted);
+            .FirstOrDefaultAsync(c =>
+                c.UserId == userId &&
+                c.ContactId == contactId &&
+                !c.IsDeleted
+            );
     }
 
     public async Task<ICollection<Entities.Contact>> GetAllContactsForUserAsync(string userId)
     {
         return await _context.Contacts
-            .Where(c => c.UserId == userId && !c.IsDeleted)
+            .Where(c =>
+                c.UserId == userId &&
+                !c.IsDeleted)
             .OrderBy(c => c.LastName)
             .ToListAsync();
     }
