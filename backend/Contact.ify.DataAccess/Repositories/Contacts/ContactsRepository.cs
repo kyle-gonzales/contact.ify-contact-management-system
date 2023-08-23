@@ -22,16 +22,10 @@ public class ContactsRepository : IContactsRepository
         contact.IsDeleted = true;
     }
 
-    public async Task UpdateContactAsync(Entities.Contact updatedContact)
+    public void UpdateContact(Entities.Contact targetContact, Entities.Contact updatedContact)
     {
-        var contact = await GetContactByIdForUserAsync(updatedContact.UserId, updatedContact.ContactId);
-
-        if (contact == null || contact.IsDeleted)
-        {
-            return;
-        }
-        contact.FirstName = updatedContact.FirstName ?? contact.FirstName;
-        contact.LastName = updatedContact.LastName;
+        targetContact.FirstName = updatedContact.FirstName ?? targetContact.FirstName;
+        targetContact.LastName = updatedContact.LastName;
     }
 
     public async Task<Entities.Contact?> GetContactByIdForUserAsync(string userId, int id)
