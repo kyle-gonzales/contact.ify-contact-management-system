@@ -17,18 +17,19 @@ public class ContactsService : IContactsService
     }
 
 
-    public async Task<int> AddContact(string userId, CreateContactRequest request)
+    public async Task<int> AddContactAsync(string userId, CreateContactRequest request)
     {
         var contact = _mapper.Map<DataAccess.Entities.Contact>(request);
         _unitOfWork.Contacts.AddContact(contact);
         
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Create);
         await _unitOfWork.CompleteAsync();
+        
         return contact.ContactId;
     }
     
 
-    public async Task<bool> UpdateContact(string userId, UpdateContactRequest request)
+    public async Task<bool> UpdateContactAsync(string userId, UpdateContactRequest request)
     {
         var targetAddress = await _unitOfWork.Contacts.GetContactByIdForUserAsync(userId, request.ContactId);
         if (targetAddress is null)
@@ -46,32 +47,32 @@ public class ContactsService : IContactsService
         return true;
     }
 
-    public async Task<bool> DeleteContact(string userId, int id)
+    public async Task<bool> DeleteContactAsync(string userId, int contactId)
     {
-        var contact = await _unitOfWork.Contacts.GetContactByIdForUserAsync(userId, id);
-
+        var contact = await _unitOfWork.Contacts.GetContactByIdForUserAsync(userId, contactId);
         if (contact is null)
         {
             return false;
         }
+        
         _unitOfWork.Contacts.DeleteContact(contact);
         
         contact.LastDateModified = DateTimeOffset.UtcNow;
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Delete);
         await _unitOfWork.CompleteAsync();
+        
         return true;
     }
 
-    public async Task<ContactFullResponse?> GetContactByIdIncludingRelationsForUserAsync(string userId, int id)
+    public async Task<ContactFullResponse?> GetContactByIdIncludingRelationsForUserAsync(string userId, int contactId)
     {
-        var contact = await _unitOfWork.Contacts.GetContactByIdIncludingRelationsForUserAsync(userId, id);
+        var contact = await _unitOfWork.Contacts.GetContactByIdIncludingRelationsForUserAsync(userId, contactId);
         if (contact is null)
         {
             return null;
         }
 
         var response = _mapper.Map<ContactFullResponse>(contact);
-        await _unitOfWork.CompleteAsync();
         return response;
     }
 
@@ -80,7 +81,6 @@ public class ContactsService : IContactsService
         var contacts = await _unitOfWork.Contacts.GetAllContactsForUserAsync(userId);
 
         var response = _mapper.Map<ICollection<ContactListItemResponse>>(contacts);
-        
         return response;
     }
 }

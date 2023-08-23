@@ -4,9 +4,9 @@ namespace Contact.ify.Domain.Services.Contacts;
 
 public interface IContactsService
 {
-    Task<int> AddContact(string userId, CreateContactRequest request);
-    Task<bool> UpdateContact(string userId, UpdateContactRequest request);
-    Task<bool> DeleteContact(string userId, int id);
+    Task<int> AddContactAsync(string userId, CreateContactRequest request);
+    Task<bool> UpdateContactAsync(string userId, UpdateContactRequest request);
+    Task<bool> DeleteContactAsync(string userId, int id);
 
     Task<ContactFullResponse?> GetContactByIdIncludingRelationsForUserAsync(string userId, int id);
     Task<ICollection<ContactListItemResponse>> GetContactListForUserAsync(string userId);
