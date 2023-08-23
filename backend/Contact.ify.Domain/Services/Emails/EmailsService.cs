@@ -96,13 +96,14 @@ public class EmailsService : IEmailsService
         return response;
     }
 
-    public async Task<EmailResponse?> GetEmailByIdForUserAsync(string userId, int id)
+    public async Task<EmailResponse?> GetEmailByIdForUserAsync(string userId, int contactId, int emailId)
     {
-        var email = await _unitOfWork.Emails.GetEmailByIdForUserAsync(userId, id);
+        var email = await _unitOfWork.Emails.GetEmailByIdForUserAsync(userId, contactId, emailId);
         if (email is null)
         {
             return null;
         }
+
         var response = _mapper.Map<EmailResponse>(email);
         return response;
     }
