@@ -48,7 +48,7 @@ public class AddressesService : IAddressesService
         {
             return false;
         }
-        _unitOfWork.Addresses.UpdateAddressAsync(targetAddress, updatedAddress);
+        _unitOfWork.Addresses.UpdateAddress(targetAddress, updatedAddress);
 
         contact.LastDateModified = DateTimeOffset.UtcNow;
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Update, PropertyUpdated.Addresses);

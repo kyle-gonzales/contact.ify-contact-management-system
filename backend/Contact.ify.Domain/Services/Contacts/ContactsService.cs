@@ -37,7 +37,7 @@ public class ContactsService : IContactsService
         }
         
         var updatedContact = _mapper.Map<DataAccess.Entities.Contact>(request);
-        _unitOfWork.Contacts.UpdateContactAsync(targetAddress, updatedContact);
+        _unitOfWork.Contacts.UpdateContact(targetAddress, updatedContact);
         
         updatedContact.LastDateModified = DateTimeOffset.UtcNow;
         _unitOfWork.AuditTrail.Add(updatedContact.ContactId, updatedContact.UserId, ModificationType.Update);
