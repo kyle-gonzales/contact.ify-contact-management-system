@@ -60,20 +60,26 @@ public class EmailsService : IEmailsService
         return true;
     }
 
-    public async Task DeleteEmailForUserAsync(string userId, int contactId, int id)
+    public async Task<bool> DeleteEmailForUserAsync(string userId, int contactId, int emailId)
     {
         var contact = await _unitOfWork.Contacts.GetContactByIdForUserAsync(userId, contactId);
-        var email = await _unitOfWork.Emails.GetEmailByIdForUserAsync(userId, id);
-
-        if (contact is null || email is null)
+        if (contact is null)
         {
-            return;
+            return false;
         }
+        var email = await _unitOfWork.Emails.GetEmailByIdForUserAsync(userId, contactId, emailId);
+        if (email is null)
+        {
+            return false;
+        }
+            
         _unitOfWork.Emails.RemoveEmail(email);
         
         contact.LastDateModified = DateTimeOffset.UtcNow;
         _unitOfWork.AuditTrail.Add(contactId, userId, ModificationType.Update, PropertyUpdated.Emails);
         await _unitOfWork.CompleteAsync();
+        
+        return true;
     }
 
     public async Task<ICollection<EmailResponse>> GetAllEmailsForUserAsync(string userId)
