@@ -33,13 +33,14 @@ public class AddressesRepository : IAddressesRepository
         address.IsDeleted = true;
     }
     
-    public async Task<ContactAddress?> GetAddressByIdForUserAsync(string userId, int id)
+    public async Task<ContactAddress?> GetAddressByIdForUserAsync(string userId, int contactId, int addressId)
     {
         return await _context.Addresses
             .Include(address => address.Contact)
             .FirstOrDefaultAsync(address =>
                 address.Contact.UserId == userId &&
-                address.ContactAddressId == id &&
+                address.Contact.ContactId == contactId &&
+                address.ContactAddressId == addressId &&
                 ! address.IsDeleted
             );
     }

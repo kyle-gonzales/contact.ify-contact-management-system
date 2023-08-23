@@ -7,6 +7,6 @@ public interface IAddressesRepository
     void AddAddress(ContactAddress address);
     void UpdateAddress(ContactAddress targetAddress, ContactAddress updatedAddress);
     void RemoveAddress(ContactAddress address);
-    Task<ContactAddress?> GetAddressByIdForUserAsync(string userId, int id);
     Task<ICollection<ContactAddress>> GetAllAddressesForUserAsync(string userId);
+    Task<ContactAddress?> GetAddressByIdForUserAsync(string userId, int contactId, int addressId);
 }
