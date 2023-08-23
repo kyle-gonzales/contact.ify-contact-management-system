@@ -25,6 +25,7 @@ public class ContactAddress
     [MaxLength(10)]
     public string? ZipCode { get; set; }
 
+    [Range(minimum:1, maximum:5)] // range of enum
     public AddressType AddressType { get; set; } = AddressType.Work;
 
     [Required] public bool IsDeleted { get; set; }
