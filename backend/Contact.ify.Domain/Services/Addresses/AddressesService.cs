@@ -92,9 +92,9 @@ public class AddressesService : IAddressesService
         return response;
     }
 
-    public async Task<AddressResponse?> GetAddressByIdForUserAsync(string userId, int id)
+    public async Task<AddressResponse?> GetAddressByIdForUserAsync(string userId, int contactId, int addressId)
     {
-        var address =  await _unitOfWork.Addresses.GetAddressByIdForUserAsync(userId, id);
+        var address =  await _unitOfWork.Addresses.GetAddressByIdForUserAsync(userId, contactId, addressId);
 
         if (address == null)
         {
