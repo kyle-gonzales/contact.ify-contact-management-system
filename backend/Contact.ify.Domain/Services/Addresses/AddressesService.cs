@@ -30,6 +30,7 @@ public class AddressesService : IAddressesService
         contact.LastDateModified = DateTimeOffset.UtcNow;
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Update, PropertyUpdated.Addresses);
         await _unitOfWork.CompleteAsync();
+        
         return address.ContactAddressId;
     }
 
@@ -53,6 +54,7 @@ public class AddressesService : IAddressesService
         contact.LastDateModified = DateTimeOffset.UtcNow;
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Update, PropertyUpdated.Addresses);
         await _unitOfWork.CompleteAsync();
+        
         return true;
     }
 
@@ -75,31 +77,32 @@ public class AddressesService : IAddressesService
         contact.LastDateModified = DateTimeOffset.UtcNow;
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Update, PropertyUpdated.Addresses);
         await _unitOfWork.CompleteAsync();
+        
         return true;
     }
 
     public async Task<ICollection<AddressResponse>?> GetAllAddressesForUserAsync(string userId, int contactId)
     {
-        var contactExists = await _unitOfWork.Contacts.ContactExists(userId, contactId);
+        var contactExists = await _unitOfWork.Contacts.ContactExistsForUserAsync(userId, contactId);
         if (!contactExists)
         {
             return null;
         }
         
         var addresses =  await _unitOfWork.Addresses.GetAllAddressesForUserAsync(userId, contactId);
+        
         var response = _mapper.Map<ICollection<ContactAddress>, ICollection<AddressResponse>>(addresses);
-
         return response;
     }
 
     public async Task<AddressResponse?> GetAddressByIdForUserAsync(string userId, int contactId, int addressId)
     {
         var address =  await _unitOfWork.Addresses.GetAddressByIdForUserAsync(userId, contactId, addressId);
-
         if (address == null)
         {
             return null;
         }
+
         var response = _mapper.Map<ContactAddress, AddressResponse>(address);
         return response;
     }
