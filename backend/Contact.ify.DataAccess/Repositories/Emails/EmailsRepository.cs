@@ -40,11 +40,14 @@ public class EmailsRepository : IEmailsRepository
             );
     }
 
-    public async Task<ICollection<ContactEmail>?> GetAllEmailsForUserAsync(string userId)
+    public async Task<ICollection<ContactEmail>?> GetAllEmailsForUserAsync(string userId, int contactId)
     {
         return await _context.Emails
             .Include(email => email.Contact)
-            .Where(email => email.Contact.UserId == userId && !email.IsDeleted)
+            .Where(email =>
+                email.Contact.UserId == userId &&
+                email.Contact.ContactId == contactId &&
+                !email.IsDeleted)
             .ToListAsync();
     }
 }
