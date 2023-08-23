@@ -45,11 +45,14 @@ public class AddressesRepository : IAddressesRepository
             );
     }
 
-    public async Task<ICollection<ContactAddress>> GetAllAddressesForUserAsync(string userId)
+    public async Task<ICollection<ContactAddress>> GetAllAddressesForUserAsync(string userId, int contactId)
     {
         return await _context.Addresses
             .Include(address => address.Contact)
-            .Where(address => address.Contact.UserId == userId && !address.IsDeleted)
+            .Where(address =>
+                address.Contact.UserId == userId &&
+                address.Contact.ContactId == contactId &&
+                !address.IsDeleted)
             .ToListAsync();
     }
 }
