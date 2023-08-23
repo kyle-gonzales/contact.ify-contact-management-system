@@ -30,15 +30,17 @@ public class ContactsService : IContactsService
 
     public async Task<bool> UpdateContact(string userId, UpdateContactRequest request)
     {
-        if (userId != request.UserId)
+        var targetAddress = await _unitOfWork.Contacts.GetContactByIdForUserAsync(userId, request.ContactId);
+        if (targetAddress is null)
         {
             return false;
         }
-        var contact = _mapper.Map<DataAccess.Entities.Contact>(request);
-        await _unitOfWork.Contacts.UpdateContactAsync(contact);
         
-        contact.LastDateModified = DateTimeOffset.UtcNow;
-        _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Update);
+        var updatedContact = _mapper.Map<DataAccess.Entities.Contact>(request);
+        _unitOfWork.Contacts.UpdateContactAsync(targetAddress, updatedContact);
+        
+        updatedContact.LastDateModified = DateTimeOffset.UtcNow;
+        _unitOfWork.AuditTrail.Add(updatedContact.ContactId, updatedContact.UserId, ModificationType.Update);
         await _unitOfWork.CompleteAsync();
         
         return true;
