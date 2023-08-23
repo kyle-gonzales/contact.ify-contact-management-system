@@ -63,7 +63,7 @@ public class ContactsRepository : IContactsRepository
             .ToListAsync();
     }
 
-    public async Task<bool> ContactExists(string userId, int contactId)
+    public async Task<bool> ContactExistsForUserAsync(string userId, int contactId)
     {
         return await _context.Contacts.AnyAsync(c =>
             c.UserId == userId &&
