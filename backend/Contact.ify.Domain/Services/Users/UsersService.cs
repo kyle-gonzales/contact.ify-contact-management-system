@@ -31,14 +31,14 @@ public class UsersService : IUsersService
         }
         var user = _mapper.Map<User>(request); // should i check if user is null?
         
-        _unitOfWork.Users.Add(user);
+        _unitOfWork.Users.AddUser(user);
         await _unitOfWork.CompleteAsync();
         return true;
     }
 
     public async Task<string?> LoginUserAsync(LoginUserRequest request)
     {
-        var user = await _unitOfWork.Users.GetAsync(request.UserName);
+        var user = await _unitOfWork.Users.GetUserByUserNameAsync(request.UserName);
         if (user == null)
         {
             return null;
@@ -55,8 +55,7 @@ public class UsersService : IUsersService
 
     public async Task<UserResponse?> GetUserAsync(string userName)
     {
-        var user = await _unitOfWork.Users.GetAsync(userName);
-
+        var user = await _unitOfWork.Users.GetUserByUserNameAsync(userName);
         if (user == null)
         {
             return null;
@@ -65,6 +64,22 @@ public class UsersService : IUsersService
         var response = _mapper.Map<User, UserResponse>(user);
         return response;
     }
+
+    public async Task<bool> UpdateUserAsync(string userName, UpdateUserRequest request)
+    {
+        var targetUser = await _unitOfWork.Users.GetUserByUserNameAsync(userName);
+        if (targetUser is null)
+        {
+            return false;
+        }
+
+        var updatedUser = _mapper.Map<User>(request);
+        _unitOfWork.Users.UpdateUser(targetUser, updatedUser);
+        await _unitOfWork.CompleteAsync();
+
+        return true;
+    }
+    
     // helper methods
     private static bool IsValidPassword(string requestPassword, string passwordHash)
     {
