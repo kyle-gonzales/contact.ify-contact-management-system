@@ -1,5 +1,5 @@
-using Contact.ify.Domain.DTOs;
-using Contact.ify.Domain.Services;
+using Contact.ify.Domain.DTOs.Users;
+using Contact.ify.Domain.Services.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Contact.ify.Controllers;

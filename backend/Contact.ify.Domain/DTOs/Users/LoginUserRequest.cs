@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Contact.ify.Domain.DTOs;
+namespace Contact.ify.Domain.DTOs.Users;
 
 /// <summary>
 /// A DTO containing login requirements
@@ -9,7 +9,7 @@ namespace Contact.ify.Domain.DTOs;
 public class LoginUserRequest
 {
     [Required(ErrorMessage = "The username is required")]
-    [MinLength(1, ErrorMessage = "Username must be at least 1 character long")]
+    [MinLength(2, ErrorMessage = "Username must be at least 2 character long")]
     [MaxLength(15, ErrorMessage = "Username must not exceed 15 characters")]
     public string UserName { get; set; }
 
