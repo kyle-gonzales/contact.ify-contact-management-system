@@ -84,4 +84,19 @@ public class ContactsService : IContactsService
         var response = _mapper.Map<ICollection<ContactListItemResponse>>(contacts);
         return response;
     }
+    
+    public async Task<bool> PatchIsFavorite(string userId, int contactId, PatchIsFavoriteRequest request)
+    {
+        var contact = await _unitOfWork.Contacts.GetContactByIdForUserAsync(userId, contactId);
+        if (contact is null)
+        {
+            return false;
+        }
+
+        contact.IsFavorite = request.IsFavorite;
+        _unitOfWork.AuditTrail.Add(contactId, userId, ModificationType.Update, PropertyUpdated.IsFavorite);
+        await _unitOfWork.CompleteAsync();
+        return true;
+    }
+    
 }

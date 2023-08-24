@@ -11,4 +11,6 @@ public interface IContactsService
     Task<ContactFullResponse?> GetContactByIdIncludingRelationsForUserAsync(string userId, int id);
     Task<ICollection<ContactListItemResponse>> GetContactListForUserAsync(string userId);
 
+    Task<bool> PatchIsFavorite(string userId, int contactId, PatchIsFavoriteRequest request);
+
 }
