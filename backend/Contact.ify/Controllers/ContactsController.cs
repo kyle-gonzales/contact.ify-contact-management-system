@@ -222,4 +222,38 @@ public class ContactsController : ControllerBase
             throw;
         }
     }
+
+    /// <summary>
+    /// Toggles the IsFavorite field of a contact
+    /// </summary>
+    /// <param name="id">Contact ID</param>
+    /// <param name="request">Request containing the patch for the IsFavorite field of a contact</param>
+    /// <returns></returns>
+    /// <response code="204">Successfully toggled the IsFavorite field of a contact</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Contact not found, based on the given username or Contact ID</response>
+    [HttpPatch("{id:int}")]
+    public async Task<IActionResult> ToggleIsFavorite(int id, PatchIsFavoriteRequest request)
+    {
+        try
+        {
+            var userName = User.Identity?.Name;
+            if (string.IsNullOrEmpty(userName))
+            {
+                return Unauthorized("Missing claims");
+            }
+            var isSuccess = await _contactsService.PatchIsFavorite(userName, id, request);
+            if (!isSuccess)
+            {
+                return NotFound($"Contact Not Found: Contact with ID '{id}' belonging to User '{userName}' does not exist");
+            }
+            return NoContent();
+        }
+        catch (Exception)
+        {
+            _logger.LogError("Something went wrong when trying to patch the address");
+            throw;
+        }
+    }
 }
