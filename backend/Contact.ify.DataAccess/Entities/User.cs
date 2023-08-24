@@ -43,4 +43,9 @@ public class User
         Contacts = new List<Contact>();
     }
 
+    public User()
+    {
+        Contacts = new List<Contact>();
+    }
+
 }
