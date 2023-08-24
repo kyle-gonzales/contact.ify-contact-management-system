@@ -4,6 +4,7 @@ using Contact.ify.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Contact.ify.DataAccess.Migrations
 {
     [DbContext(typeof(ContactsContext))]
-    partial class ContactsContextModelSnapshot : ModelSnapshot
+    [Migration("20230817071822_AddContactsAndAudit")]
+    partial class AddContactsAndAudit
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,9 +40,6 @@ namespace Contact.ify.DataAccess.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("IsFavorite")
-                        .HasColumnType("bit");
-
                     b.Property<DateTimeOffset>("LastDateModified")
                         .HasColumnType("datetimeoffset");
 
@@ -48,14 +48,7 @@ namespace Contact.ify.DataAccess.Migrations
                         .HasMaxLength(35)
                         .HasColumnType("nvarchar(35)");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
                     b.HasKey("ContactId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Contacts");
                 });
@@ -76,7 +69,7 @@ namespace Contact.ify.DataAccess.Migrations
                         .HasMaxLength(80)
                         .HasColumnType("nvarchar(80)");
 
-                    b.Property<int>("ContactId")
+                    b.Property<int?>("ContactId")
                         .HasColumnType("int");
 
                     b.Property<string>("Country")
@@ -120,12 +113,8 @@ namespace Contact.ify.DataAccess.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PropertyUpdated")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ModifiedBy")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("Timestamp")
                         .HasColumnType("datetimeoffset");
@@ -214,46 +203,29 @@ namespace Contact.ify.DataAccess.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Contact.ify.DataAccess.Entities.Contact", b =>
-                {
-                    b.HasOne("Contact.ify.DataAccess.Entities.User", null)
-                        .WithMany("Contacts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.ContactAddress", b =>
                 {
-                    b.HasOne("Contact.ify.DataAccess.Entities.Contact", "Contact")
+                    b.HasOne("Contact.ify.DataAccess.Entities.Contact", null)
                         .WithMany("Addresses")
-                        .HasForeignKey("ContactId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Contact");
+                        .HasForeignKey("ContactId");
                 });
 
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.ContactEmail", b =>
                 {
-                    b.HasOne("Contact.ify.DataAccess.Entities.Contact", "Contact")
+                    b.HasOne("Contact.ify.DataAccess.Entities.Contact", null)
                         .WithMany("Emails")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Contact");
                 });
 
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.ContactPhoneNumber", b =>
                 {
-                    b.HasOne("Contact.ify.DataAccess.Entities.Contact", "Contact")
+                    b.HasOne("Contact.ify.DataAccess.Entities.Contact", null)
                         .WithMany("PhoneNumbers")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Contact");
                 });
 
             modelBuilder.Entity("Contact.ify.DataAccess.Entities.Contact", b =>
@@ -263,11 +235,6 @@ namespace Contact.ify.DataAccess.Migrations
                     b.Navigation("Emails");
 
                     b.Navigation("PhoneNumbers");
-                });
-
-            modelBuilder.Entity("Contact.ify.DataAccess.Entities.User", b =>
-                {
-                    b.Navigation("Contacts");
                 });
 #pragma warning restore 612, 618
         }
