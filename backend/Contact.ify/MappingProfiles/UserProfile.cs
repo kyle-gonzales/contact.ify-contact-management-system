@@ -21,6 +21,11 @@ public class UserProfile : Profile
                     src.LastName, 
                     src.Email));
 
-        CreateMap<User, UserResponse>();
+        CreateMap<User, UserResponse>()
+            .ForMember(
+                response => response.UserName,
+                opt => opt.MapFrom(user => user.UserId)
+            );
+        CreateMap<UpdateUserRequest, User>();
     }
 }
