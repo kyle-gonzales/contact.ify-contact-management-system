@@ -21,7 +21,8 @@ public class ContactsService : IContactsService
     {
         var contact = _mapper.Map<DataAccess.Entities.Contact>(request);
         _unitOfWork.Contacts.AddContact(contact);
-        
+        await _unitOfWork.CompleteAsync();
+
         _unitOfWork.AuditTrail.Add(contact.ContactId, contact.UserId, ModificationType.Create);
         await _unitOfWork.CompleteAsync();
         
