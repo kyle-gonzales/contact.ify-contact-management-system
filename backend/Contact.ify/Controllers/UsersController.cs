@@ -1,3 +1,4 @@
+using Contact.ify.Domain.DTOs.Users;
 using Contact.ify.Domain.Services.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -38,15 +39,27 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetUser() //TODO: add user response DTO
+    public async Task<ActionResult<UserResponse>> GetUser()
     {
         try
         {
-            return Ok();
+            var userName = User.Identity?.Name;
+            if (string.IsNullOrEmpty(userName))
+            {
+                return Unauthorized("Missing claims");
+            }
+
+            var response = await _usersService.GetUserAsync(userName);
+            if (response is null)
+            {
+                return NotFound($"User not Found: User '{userName}' does not exist");
+            }
+            
+            return Ok(response);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e);
+            _logger.LogError("Something went wrong trying to get a user");
             throw;
         }
     }
@@ -60,41 +73,50 @@ public class UsersController : ControllerBase
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> UpdateUser() //TODO: add update user DTO body parameter
+    public async Task<IActionResult> UpdateUser(UpdateUserRequest request)
     {
         try
         {
+            var userName = User.Identity?.Name;
+            if (string.IsNullOrEmpty(userName))
+            {
+                return Unauthorized("Missing claims");
+            }
+
+            var isSuccess = await _usersService.UpdateUserAsync(userName, request);
+            if (!isSuccess)
+            {
+                return NotFound($"User not Found: User '{userName}' does not exist");
+            }
+            
             return NoContent();
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine(e);
+            _logger.LogError("Something went wrong when trying to update a user");
             throw;
         }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <returns></returns>
-    [HttpDelete]
-    [ProducesResponseType(StatusCodes.Status204NoContent)]
-    [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-    [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> DeleteUser() //TODO: add update user DTO body parameter
-    {
-        try
-        {
-            return NoContent();
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }
-    
-    
-    
+    // /// <summary>
+    // /// 
+    // /// </summary>
+    // /// <returns></returns>
+    // [HttpDelete]
+    // [ProducesResponseType(StatusCodes.Status204NoContent)]
+    // [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    // [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+    // [ProducesResponseType(StatusCodes.Status404NotFound)]
+    // public async Task<IActionResult> DeleteUser() //TODO: add update user DTO body parameter
+    // {
+    //     try
+    //     {
+    //         return NoContent();
+    //     }
+    //     catch (Exception e)
+    //     {
+    //         Console.WriteLine(e);
+    //         throw;
+    //     }
+    // }
 }
