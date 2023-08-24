@@ -19,7 +19,6 @@ public class AuthenticationController : ControllerBase
     /// </summary>
     /// <param name="usersService"></param>
     /// <param name="logger"></param>
-    /// <exception cref="ArgumentNullException"></exception>
     public AuthenticationController(IUsersService usersService, ILogger<AuthenticationController> logger)
     {
         _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));
@@ -32,6 +31,7 @@ public class AuthenticationController : ControllerBase
     /// <param name="request">Request containing registration info</param>
     /// <returns>IActionResult</returns>
     /// <response code="200">Returns a JWT token</response>
+    /// <response code="400">Missing field or invalid values</response>
     /// <response code="409">User already exists</response>
     [HttpPost]
     [Route("/register")]
@@ -62,6 +62,7 @@ public class AuthenticationController : ControllerBase
     /// <param name="request">Request containing login info</param>
     /// <returns></returns>
     /// <response code="200">Returns a JWT token</response>
+    /// <response code="400">Missing field or invalid values</response>
     /// <response code="401">Incorrect username or password</response>
     [HttpPost]
     [Route("/login")]
