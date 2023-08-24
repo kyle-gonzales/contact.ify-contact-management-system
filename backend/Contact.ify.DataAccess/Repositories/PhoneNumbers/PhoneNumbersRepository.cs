@@ -18,14 +18,9 @@ public class PhoneNumbersRepository : IPhoneNumbersRepository
         _context.PhoneNumbers.Add(phoneNumber);
     }
 
-    public async Task UpdatePhoneNumberAsync(ContactPhoneNumber updatedPhoneNumber)
+    public void UpdatePhoneNumber(ContactPhoneNumber targetPhoneNumber, ContactPhoneNumber updatedPhoneNumber)
     {
-        var phoneNumber = await GetPhoneNumberByIdForUserAsync(updatedPhoneNumber.Contact.UserId, updatedPhoneNumber.ContactPhoneNumberId);
-        if (phoneNumber == null) // phoneNumber does not exist
-        {
-            return;
-        }
-        phoneNumber.PhoneNumber = updatedPhoneNumber.PhoneNumber;
+        targetPhoneNumber.PhoneNumber = updatedPhoneNumber.PhoneNumber;
     }
 
     public void RemovePhoneNumber(ContactPhoneNumber phoneNumber)
@@ -33,22 +28,26 @@ public class PhoneNumbersRepository : IPhoneNumbersRepository
         phoneNumber.IsDeleted = true;
     }
     
-    public async Task<ContactPhoneNumber?> GetPhoneNumberByIdForUserAsync(string userId, int id)
+    public async Task<ContactPhoneNumber?> GetPhoneNumberByIdForUserAsync(string userId, int contactId, int phoneNumberId)
     {
         return await _context.PhoneNumbers
             .Include(phone => phone.Contact)
             .FirstOrDefaultAsync(phone =>
                 phone.Contact.UserId == userId &&
-                phone.ContactPhoneNumberId == id &&
+                phone.Contact.ContactId == contactId &&
+                phone.ContactPhoneNumberId == phoneNumberId &&
                 ! phone.IsDeleted
             );
     }
 
-    public async Task<ICollection<ContactPhoneNumber>?> GetAllPhoneNumbersForUserAsync(string userId)
+    public async Task<ICollection<ContactPhoneNumber>?> GetAllPhoneNumbersForUserAsync(string userId, int contactId)
     {
         return await _context.PhoneNumbers
             .Include(phone => phone.Contact)
-            .Where(phone => phone.Contact.UserId == userId && ! phone.IsDeleted)
+            .Where(phone => 
+                phone.Contact.UserId == userId &&
+                phone.Contact.ContactId == contactId &&
+                ! phone.IsDeleted)
             .ToListAsync();
     }
 }
