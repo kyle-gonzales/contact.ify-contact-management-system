@@ -91,7 +91,7 @@ public class AddressesService : IAddressesService
         
         var addresses =  await _unitOfWork.Addresses.GetAllAddressesForUserAsync(userId, contactId);
         
-        var response = _mapper.Map<ICollection<ContactAddress>, ICollection<AddressResponse>>(addresses);
+        var response = _mapper.Map<ICollection<AddressResponse>>(addresses);
         return response;
     }
 
@@ -103,7 +103,7 @@ public class AddressesService : IAddressesService
             return null;
         }
 
-        var response = _mapper.Map<ContactAddress, AddressResponse>(address);
+        var response = _mapper.Map<AddressResponse>(address);
         return response;
     }
 }
