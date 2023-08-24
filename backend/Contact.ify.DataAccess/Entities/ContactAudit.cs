@@ -16,9 +16,11 @@ public class ContactAudit
     [Required]
     public string ModifiedBy { get; set; } // person who modified
 
+    [Range(1, 3)]
     public PropertyUpdated? PropertyUpdated { get; set; }
     
     [Required]
+    [Range(1, 6)]
     public ModificationType ModificationType { get; set; }
 
     public ContactAudit(
