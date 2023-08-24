@@ -33,9 +33,13 @@ public class PhoneNumbersController : ControllerBase
     /// <summary>
     /// Adds a new phone number to an existing contact
     /// </summary>
-    /// <param name="contactId"></param>
-    /// <param name="request"></param>
-    /// <returns></returns>
+    /// <param name="contactId">Contact ID</param>
+    /// <param name="request">Request containing the information to create an phone number</param>
+    /// <returns>ID of the created address</returns>
+    /// <response code="201">Address created successfully. Returns the ID of the created address</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Failed to add User. Contact not found based on username or contact ID</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -67,11 +71,14 @@ public class PhoneNumbersController : ControllerBase
     }
 
     /// <summary>
-    /// Gets a phone number of a contact based on the specified phone number ID
+    /// Gets a phone number of a contact based on the phone number ID
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="contactId"></param>
-    /// <returns></returns>
+    /// <param name="id">Phone Number ID</param>
+    /// <param name="contactId">Contact ID</param>
+    /// <response code="200">Successfully returns the phone number</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Phone Number not found, based on the given username, contact ID, or phone number ID</response>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -106,8 +113,13 @@ public class PhoneNumbersController : ControllerBase
     /// <summary>
     /// Gets all the phone numbers of a contact
     /// </summary>
-    /// <param name="contactId"></param>
+    /// <param name="contactId">Contact ID</param>
     /// <returns></returns>
+    /// <response code="200">Successfully returns the phone numbers</response>
+    /// <response code="204">Request is successful. No phone numbers were found</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Address not found, based on the given username, contact ID, or phone number ID</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -146,9 +158,13 @@ public class PhoneNumbersController : ControllerBase
     /// <summary>
     /// Updates all the fields of an existing phone number
     /// </summary>
-    /// <param name="contactId"></param>
-    /// <param name="request"></param>
+    /// <param name="contactId">Contact ID</param>
+    /// <param name="request">Request containing updated phone number fields</param>
     /// <returns></returns>
+    /// <response code="204">Phone Number updated successfully</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Phone Number not found, based on the given username, contact ID, or phone number ID</response>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -181,11 +197,15 @@ public class PhoneNumbersController : ControllerBase
     }
 
     /// <summary>
-    /// Soft deletes a contact's phone number
+    /// Soft deletes a contact's phone number based on the phone number ID
     /// </summary>
-    /// <param name="contactId"></param>
-    /// <param name="id"></param>
+    /// <param name="contactId">Contact ID</param>
+    /// <param name="id">Phone Number ID</param>
     /// <returns></returns>
+    /// <response code="204">Phone Number deleted successfully</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Phone Number not found, based on the given username, contact ID, or phone number ID</response>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

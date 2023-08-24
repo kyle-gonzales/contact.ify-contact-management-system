@@ -29,11 +29,15 @@ public class AddressesController : ControllerBase
     }
 
     /// <summary>
-    /// Adds an address to a contact
+    /// Adds a new address to a contact
     /// </summary>
-    /// <param name="contactId"></param>
-    /// <param name="request"></param>
-    /// <returns>ID of the created Address</returns>
+    /// <param name="contactId">Contact ID</param>
+    /// <param name="request">Request containing the information to create an address</param>
+    /// <returns>ID of the created address</returns>
+    /// <response code="201">Address created successfully. Returns the ID of the created Address</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Failed to add User. Contact not found based on username or contact ID</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -65,11 +69,14 @@ public class AddressesController : ControllerBase
     }
 
     /// <summary>
-    /// Gets an address of a contact based on the specified address ID
+    /// Gets an address of a contact based on the address ID
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="contactId"></param>
-    /// <returns></returns>
+    /// <param name="id">Address ID</param>
+    /// <param name="contactId">Contact ID</param>
+    /// <response code="200">Successfully returns the address</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Address not found, based on the given username, contact ID, or address ID</response>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -104,8 +111,13 @@ public class AddressesController : ControllerBase
     /// <summary>
     /// Gets all the addresses of a contact
     /// </summary>
-    /// <param name="contactId"></param>
+    /// <param name="contactId">Contact ID</param>
     /// <returns></returns>
+    /// <response code="200">Successfully returns the addresses</response>
+    /// <response code="204">Request is successful. No addresses were found</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Address not found, based on the given username, contact ID, or address ID</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -144,9 +156,13 @@ public class AddressesController : ControllerBase
     /// <summary>
     /// Updates all the fields of an existing address
     /// </summary>
-    /// <param name="contactId"></param>
-    /// <param name="request"></param>
+    /// <param name="contactId">Contact ID</param>
+    /// <param name="request">Request containing updated address fields</param>
     /// <returns></returns>
+    /// <response code="204">Address updated successfully</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Address not found, based on the given username, contact ID, or address ID</response>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -179,11 +195,15 @@ public class AddressesController : ControllerBase
     }
 
     /// <summary>
-    /// Soft deletes a user's address
+    /// Soft deletes a contact's address based on the address ID
     /// </summary>
-    /// <param name="contactId"></param>
-    /// <param name="id"></param>
+    /// <param name="contactId">Contact ID</param>
+    /// <param name="id">Address ID</param>
     /// <returns></returns>
+    /// <response code="204">Address deleted successfully</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Address not found, based on the given username, contact ID, or address ID</response>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

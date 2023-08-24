@@ -29,11 +29,15 @@ public class EmailsController : ControllerBase
     }
     
     /// <summary>
-    /// Adds a new email to an existing contact
+    /// Adds a new email to a contact
     /// </summary>
-    /// <param name="contactId"></param>
-    /// <param name="request"></param>
+    /// <param name="contactId">Contact ID</param>
+    /// <param name="request">Request containing the information to create an email</param>
     /// <returns></returns>
+    /// <response code="201">Email created successfully. Returns the ID of the created Email</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Failed to add User. Contact not found based on username or contact ID</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -65,11 +69,14 @@ public class EmailsController : ControllerBase
     }
 
     /// <summary>
-    /// Gets an email of a contact based on the specified email ID
+    /// Gets an email of a contact based on the email ID
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="contactId"></param>
-    /// <returns></returns>
+    /// <param name="id">Email ID</param>
+    /// <param name="contactId">Contact ID</param>
+    /// <response code="200">Successfully returns the email</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Email not found, based on the given username, contact ID, or email ID</response>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -104,8 +111,13 @@ public class EmailsController : ControllerBase
     /// <summary>
     /// Gets all the emails of a contact
     /// </summary>
-    /// <param name="contactId"></param>
+    /// <param name="contactId">Contact ID</param>
     /// <returns></returns>
+    /// <response code="200">Successfully returns the emails</response>
+    /// <response code="204">Request is successful. No emails were found</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Address not found, based on the given username, contact ID, or email ID</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -144,9 +156,13 @@ public class EmailsController : ControllerBase
     /// <summary>
     /// Updates all the fields of an existing email
     /// </summary>
-    /// <param name="contactId"></param>
-    /// <param name="request"></param>
+    /// <param name="contactId">Contact ID</param>
+    /// <param name="request">Request containing updated email fields</param>
     /// <returns></returns>
+    /// <response code="204">Email updated successfully</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Email not found, based on the given username, contact ID, or email ID</response>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -179,11 +195,15 @@ public class EmailsController : ControllerBase
     }
 
     /// <summary>
-    /// Soft deletes an email
+    /// Soft deletes a contact's email based on the email ID
     /// </summary>
-    /// <param name="contactId"></param>
-    /// <param name="id"></param>
+    /// <param name="contactId">Contact ID</param>
+    /// <param name="id">Email ID</param>
     /// <returns></returns>
+    /// <response code="204">Email deleted successfully</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Email not found, based on the given username, contact ID, or email ID</response>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

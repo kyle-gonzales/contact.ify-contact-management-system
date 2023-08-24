@@ -32,8 +32,12 @@ public class ContactsController : ControllerBase
     /// <summary>
     /// Adds a new contact for a user
     /// </summary>
-    /// <param name="request"></param>
+    /// <param name="request">Request containing user information</param>
     /// <returns></returns>
+    /// <response code="201">Contact created successfully. Returns the ID of the newly created contact</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Contact not found, based on the given username</response>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -68,8 +72,12 @@ public class ContactsController : ControllerBase
     /// <summary>
     /// Gets a user's contact based on the contact ID
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">Contact ID</param>
     /// <returns></returns>
+    /// <response code="200">Successfully returns the contact</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Contact not found, based on the given username or Contact ID</response>
     [HttpGet("{id:int}")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -99,9 +107,13 @@ public class ContactsController : ControllerBase
     }
 
     /// <summary>
-    /// Gets all a user's contacts
+    /// Gets all the contacts of a user
     /// </summary>
     /// <returns></returns>
+    /// <response code="200">Successfully returns the contact</response>
+    /// <response code="204">Successfully completed the request. No contacts found</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -131,10 +143,14 @@ public class ContactsController : ControllerBase
     }
 
     /// <summary>
-    /// Updates the 
+    /// Updates the first name, last name, and email of a contact
     /// </summary>
-    /// <param name="request"></param>
+    /// <param name="request">Request containing the updated contact information</param>
     /// <returns></returns>
+    /// <response code="204">Successfully updated the contact</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Contact not found, based on the given username or Contact ID</response>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -170,10 +186,14 @@ public class ContactsController : ControllerBase
     }
 
     /// <summary>
-    /// Soft deletes a user's contact
+    /// Soft deletes a user's contact as by the Contact ID
     /// </summary>
-    /// <param name="id"></param>
+    /// <param name="id">Contact ID</param>
     /// <returns></returns>
+    /// <response code="204">Successfully deleted the contact</response>
+    /// <response code="400">Missing field or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">Contact not found, based on the given username or Contact ID</response>
     [HttpDelete("{id:int}")]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]

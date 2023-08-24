@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Contact.ify.Controllers;
 
 /// <summary>
-/// 
+/// Controller for working with users
 /// </summary>
 [Authorize]
 [ApiController]
@@ -18,7 +18,7 @@ public class UsersController : ControllerBase
     private readonly ILogger<UsersController> _logger;
 
     /// <summary>
-    /// Creates a controller with injected services.
+    /// Injects a logger and users service
     /// </summary>
     /// <param name="usersService"></param>
     /// <param name="logger"></param>
@@ -31,9 +31,13 @@ public class UsersController : ControllerBase
 
     
     /// <summary>
-    /// 
+    /// Gets a user based on the username from the identity claims
     /// </summary>
     /// <returns></returns>
+    /// <response code="200">Successfully returns the user</response>
+    /// <response code="400">Missing fields or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">User not found based on the username</response>
     [HttpGet]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -65,9 +69,13 @@ public class UsersController : ControllerBase
     }
     
     /// <summary>
-    /// 
+    /// Updates all the fields of a user obtained from the username from the identity claims
     /// </summary>
     /// <returns></returns>
+    /// <response code="204">Successfully updated the user's first name, last name, and email</response>
+    /// <response code="400">Missing fields or invalid values</response>
+    /// <response code="401">User not authenticated</response>
+    /// <response code="404">User not found based on the username</response>
     [HttpPut]
     [ProducesResponseType(StatusCodes.Status204NoContent)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
