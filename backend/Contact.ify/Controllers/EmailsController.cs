@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Contact.ify.Controllers;
 
 /// <summary>
-/// 
+/// Controller for working with the emails of a user's contact
 /// </summary>
 [Authorize]
 [ApiController]
@@ -17,7 +17,7 @@ public class EmailsController : ControllerBase
     private readonly IEmailsService _emailsService;
 
     /// <summary>
-    /// 
+    /// Injects a logger and emails service
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="emailsService"></param>
@@ -28,8 +28,8 @@ public class EmailsController : ControllerBase
         _emailsService = emailsService ?? throw new ArgumentNullException(nameof(emailsService));
     }
     
-        /// <summary>
-    /// 
+    /// <summary>
+    /// Adds a new email to an existing contact
     /// </summary>
     /// <param name="contactId"></param>
     /// <param name="request"></param>
@@ -65,7 +65,7 @@ public class EmailsController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Gets an email of a contact based on the specified email ID
     /// </summary>
     /// <param name="id"></param>
     /// <param name="contactId"></param>
@@ -102,7 +102,7 @@ public class EmailsController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Gets all the emails of a contact
     /// </summary>
     /// <param name="contactId"></param>
     /// <returns></returns>
@@ -142,7 +142,7 @@ public class EmailsController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Updates all the fields of an existing email
     /// </summary>
     /// <param name="contactId"></param>
     /// <param name="request"></param>
@@ -179,7 +179,7 @@ public class EmailsController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Soft deletes an email
     /// </summary>
     /// <param name="contactId"></param>
     /// <param name="id"></param>

@@ -19,7 +19,6 @@ public class AuthenticationController : ControllerBase
     /// </summary>
     /// <param name="usersService"></param>
     /// <param name="logger"></param>
-    /// <exception cref="ArgumentNullException"></exception>
     public AuthenticationController(IUsersService usersService, ILogger<AuthenticationController> logger)
     {
         _usersService = usersService ?? throw new ArgumentNullException(nameof(usersService));

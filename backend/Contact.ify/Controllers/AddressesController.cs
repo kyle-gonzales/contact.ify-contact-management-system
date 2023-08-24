@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Contact.ify.Controllers;
 
 /// <summary>
-/// 
+/// Controller for working with the addresses for a user's contacts
 /// </summary>
 [Authorize]
 [ApiController]
@@ -17,7 +17,7 @@ public class AddressesController : ControllerBase
     private readonly IAddressesService _addressesService;
 
     /// <summary>
-    /// 
+    /// Injects logger and addresses service
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="addressesService"></param>
@@ -29,11 +29,11 @@ public class AddressesController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Adds an address to a contact
     /// </summary>
     /// <param name="contactId"></param>
     /// <param name="request"></param>
-    /// <returns></returns>
+    /// <returns>ID of the created Address</returns>
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -65,7 +65,7 @@ public class AddressesController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Gets an address of a contact based on the specified address ID
     /// </summary>
     /// <param name="id"></param>
     /// <param name="contactId"></param>
@@ -102,7 +102,7 @@ public class AddressesController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Gets all the addresses of a contact
     /// </summary>
     /// <param name="contactId"></param>
     /// <returns></returns>
@@ -142,7 +142,7 @@ public class AddressesController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Updates all the fields of an existing address
     /// </summary>
     /// <param name="contactId"></param>
     /// <param name="request"></param>
@@ -179,7 +179,7 @@ public class AddressesController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Soft deletes a user's address
     /// </summary>
     /// <param name="contactId"></param>
     /// <param name="id"></param>

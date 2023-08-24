@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace Contact.ify.Controllers;
 
 /// <summary>
-/// 
+/// Controller for working with the phone numbers of an existing contact
 /// </summary>
 [Authorize]
 [ApiController]
@@ -18,7 +18,7 @@ public class PhoneNumbersController : ControllerBase
     
 
     /// <summary>
-    /// 
+    /// Injects a logger and phone numbers service
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="phoneNumbersService"></param>
@@ -30,8 +30,8 @@ public class PhoneNumbersController : ControllerBase
     }
     
     
-        /// <summary>
-    /// 
+    /// <summary>
+    /// Adds a new phone number to an existing contact
     /// </summary>
     /// <param name="contactId"></param>
     /// <param name="request"></param>
@@ -67,7 +67,7 @@ public class PhoneNumbersController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Gets a phone number of a contact based on the specified phone number ID
     /// </summary>
     /// <param name="id"></param>
     /// <param name="contactId"></param>
@@ -104,7 +104,7 @@ public class PhoneNumbersController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Gets all the phone numbers of a contact
     /// </summary>
     /// <param name="contactId"></param>
     /// <returns></returns>
@@ -144,7 +144,7 @@ public class PhoneNumbersController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Updates all the fields of an existing phone number
     /// </summary>
     /// <param name="contactId"></param>
     /// <param name="request"></param>
@@ -181,7 +181,7 @@ public class PhoneNumbersController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Soft deletes a contact's phone number
     /// </summary>
     /// <param name="contactId"></param>
     /// <param name="id"></param>

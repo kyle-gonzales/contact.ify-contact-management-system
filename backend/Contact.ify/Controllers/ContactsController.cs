@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens;
 namespace Contact.ify.Controllers;
 
 /// <summary>
-/// 
+/// Controller for working with a user's contacts
 /// </summary>
 [Authorize]
 [ApiController]
@@ -18,7 +18,7 @@ public class ContactsController : ControllerBase
     private readonly IContactsService _contactsService;
 
     /// <summary>
-    /// 
+    /// Injects a logger and contacts service
     /// </summary>
     /// <param name="logger"></param>
     /// <param name="contactsService"></param>
@@ -30,7 +30,7 @@ public class ContactsController : ControllerBase
     }
     
     /// <summary>
-    /// 
+    /// Adds a new contact for a user
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -66,7 +66,7 @@ public class ContactsController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Gets a user's contact based on the contact ID
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
@@ -99,7 +99,7 @@ public class ContactsController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Gets all a user's contacts
     /// </summary>
     /// <returns></returns>
     [HttpGet]
@@ -131,7 +131,7 @@ public class ContactsController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Updates the 
     /// </summary>
     /// <param name="request"></param>
     /// <returns></returns>
@@ -170,7 +170,7 @@ public class ContactsController : ControllerBase
     }
 
     /// <summary>
-    /// 
+    /// Soft deletes a user's contact
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
