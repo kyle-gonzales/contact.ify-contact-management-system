@@ -59,7 +59,8 @@ public class ContactsRepository : IContactsRepository
             .Where(c =>
                 c.UserId == userId &&
                 !c.IsDeleted)
-            .OrderBy(c => c.LastName)
+            .OrderBy(c => !c.IsFavorite)
+            .ThenBy(c => c.LastName)
             .ToListAsync();
     }
 
