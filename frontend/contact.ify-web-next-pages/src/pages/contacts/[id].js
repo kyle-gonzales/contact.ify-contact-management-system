@@ -31,7 +31,6 @@ const Contact = () => {
       <div>
         <h3>Phone Numbers</h3>
         <ul>
-          {console.log(contact.phoneNumbers)}
           {contact.phoneNumbers.map((phoneNumber) => (
             <li key={phoneNumber.contactPhoneNumberId}>
               <PhoneNumberItem phoneNumber={phoneNumber} />
@@ -42,8 +41,6 @@ const Contact = () => {
       <div>
         <h3>Addresses</h3>
         <ul>
-          {console.log(contact.addresses)}
-
           {contact.addresses.map((address) => (
             <li key={address.contactAddressId}>
               <AddressItem address={address} />
