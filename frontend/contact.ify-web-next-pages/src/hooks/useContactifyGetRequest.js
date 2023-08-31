@@ -39,23 +39,3 @@ const useContactifyGetRequest = (endpoint, router) => {
 };
 
 export default useContactifyGetRequest;
-
-// useEffect(() => {
-//   const fetchContactById = async () => {
-//     const headers = new Headers();
-//     headers.append("Authorization", `Bearer ${TOKEN}`);
-
-//     const options = {
-//       headers: headers,
-//     };
-
-//     const response = await fetch(
-//       `${API_BASE_URL}/contacts/${router.query.contactId}`,
-//       options
-//     );
-//     const contact = await response.json();
-//     console.log(contact);
-//     setContact(contact);
-//   };
-//   fetchContactById();
-// }, [router.query.contactId, router.query.id]);
