@@ -8,7 +8,6 @@ namespace Contact.ify.Controllers;
 /// Authenticates a user using JWT and Bearer Tokenization Authentication Scheme
 /// </summary>
 [ApiController]
-[Route("api/authentication")]
 public class AuthenticationController : ControllerBase
 {
     private readonly IUsersService _usersService;
@@ -33,8 +32,7 @@ public class AuthenticationController : ControllerBase
     /// <response code="200">Returns a JWT token</response>
     /// <response code="400">Missing field or invalid values</response>
     /// <response code="409">User already exists</response>
-    [HttpPost]
-    [Route("/register")]
+    [HttpPost("api/register")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status409Conflict)]
     public async Task<IActionResult> Register([FromBody] RegisterUserRequest request)
@@ -64,8 +62,7 @@ public class AuthenticationController : ControllerBase
     /// <response code="200">Returns a JWT token</response>
     /// <response code="400">Missing field or invalid values</response>
     /// <response code="401">Incorrect username or password</response>
-    [HttpPost]
-    [Route("/login")]
+    [HttpPost("/api/login")]
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status401Unauthorized)]
     public async Task<ActionResult<string>> Login([FromBody] LoginUserRequest request)
