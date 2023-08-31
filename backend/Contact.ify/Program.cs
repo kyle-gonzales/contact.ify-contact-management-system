@@ -89,6 +89,12 @@ builder.Services
         }
     );
 
+builder.Services.AddCors(policy => 
+    policy.AddPolicy("Contact.ifyPolicy", build =>
+        {
+            build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+        }));
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IContactsService, ContactsService>();
@@ -108,6 +114,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 // app.UseExceptionHandler("/Error");
+
+app.UseCors("Contact.ifyPolicy");
 
 app.UseHttpsRedirection();
 
