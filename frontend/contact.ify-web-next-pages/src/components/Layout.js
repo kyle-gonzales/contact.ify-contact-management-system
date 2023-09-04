@@ -1,12 +1,12 @@
 import NavBar from "./NavBar";
 import SidePanel from "./SidePanel";
 
-
 const Layout = ({ children }) => {
+
   return (
     <div>
-      <SidePanel />
       <NavBar />
+      <SidePanel />
       {children}
     </div>
   );
