@@ -1,24 +1,17 @@
-"use client";
-
 import Link from "next/link";
 import ContactRow from "@/components/ContactRow";
 import { useRouter } from "next/router";
-import cookies from "js-cookie";
-import useUser from "@/hooks/useUser";
 import useContacts from "@/hooks/useContacts";
+import LoadingIndicator from "@/components/LoadingIndicator";
+import loadingStatus from "@/utils/loadingStatus";
 
 export default function Home() {
   const router = useRouter();
-  const { user, setUser } = useUser(router);
   const { contacts, setContacts, loadingState } = useContacts(router);
 
-  // console.log(contacts);
-
-  const logout = () => {
-    setUser(null);
-    cookies.remove("jwt_authorization");
-    router.reload();
-  };
+  if (loadingState !== loadingStatus.loaded)
+    return <LoadingIndicator loadingState={loadingState} />;
+    // use placeholder
 
   if (!contacts) return "No Contacts to display";
 
@@ -33,7 +26,6 @@ export default function Home() {
           </li>
         ))}
       </ul>
-      <button onClick={logout}>Logout</button>
     </div>
   );
 }
