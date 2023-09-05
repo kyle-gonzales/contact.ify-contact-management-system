@@ -45,7 +45,7 @@ public class AuthenticationController : ControllerBase
                 return Ok();
             }
 
-            return Conflict(new { errors = new Dictionary<string, object[]>{{ "UserName" , new[]{"User already exists"}}}});
+            return Conflict(new { errors = new Dictionary<string, object[]>{{ "UserName" , new object[]{"User already exists"}}}});
         }
         catch (Exception)
         {
