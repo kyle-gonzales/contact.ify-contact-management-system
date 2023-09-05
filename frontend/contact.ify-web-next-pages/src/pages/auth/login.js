@@ -21,15 +21,17 @@ const Login = () => {
 
   return (
     <div className="d-flex vh-100 align-items-center">
-      <Container className="col-4 m-auto">
-        <Card className="">
-          <div className="mx-5">
-            <Card.Img
-              src="/Contact.ify-black.svg"
-              alt="Logo"
-              width={50}
-              height={150}
-            />
+      <Container className="col-12 col-md-6 col-lg-4 m-auto">
+        <Card className="container-fluid">
+          <div className="row justify-content-center">
+            <div className=" col-8">
+              <Card.Img
+                src="/Contact.ify-black.svg"
+                alt="Logo"
+                width={50}
+                height={150}
+              />
+            </div>
           </div>
           <Card.Body>
             <Form
