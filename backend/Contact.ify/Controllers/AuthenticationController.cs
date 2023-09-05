@@ -29,7 +29,7 @@ public class AuthenticationController : ControllerBase
     /// </summary>
     /// <param name="request">Request containing registration info</param>
     /// <returns>IActionResult</returns>
-    /// <response code="200">Returns a JWT token</response>
+    /// <response code="200">Successful Registration</response>
     /// <response code="400">Missing field or invalid values</response>
     /// <response code="409">User already exists</response>
     [HttpPost("api/register")]
@@ -45,8 +45,8 @@ public class AuthenticationController : ControllerBase
                 return Ok();
             }
 
-            return Conflict("User already exists");
-        } // should i catch OperationCanceledException?
+            return Conflict(new { errors = new Dictionary<string, object[]>{{ "UserName" , new[]{"User already exists"}}}});
+        }
         catch (Exception)
         {
             _logger.LogError("Exception occurred when trying to register a user");
