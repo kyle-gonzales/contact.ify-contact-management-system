@@ -1,75 +1,84 @@
 import { useState } from "react";
-import { API_BASE_URL } from "../../../config";
 import { useRouter } from "next/router";
-import cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
 import Link from "next/link";
-
-const { default: AuthLayout } = require("@/components/AuthLayout");
+import Container from "react-bootstrap/Container";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Card from "react-bootstrap/Card";
+import AuthLayout from "@/components/AuthLayout";
+import logIn from "@/utils/login";
 
 const Login = () => {
   const router = useRouter();
   const [logInCreds, setLogInCreds] = useState({ userName: "", password: "" });
+  console.log(logInCreds);
+  const [isValid, setIsValid] = useState(true);
 
   const onValueChange = (e) => {
     const { name, value } = e.target;
     setLogInCreds({ ...logInCreds, [name]: value });
   };
 
-  const logIn = async (e) => {
-    e.preventDefault();
-
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(logInCreds),
-    };
-
-    try {
-      const response = await fetch(`${API_BASE_URL}/login`, options);
-      if (!response.ok) {
-        alert("failed to log in");
-        return;
-      }
-      const token = await response.text();
-      console.log(token);
-      const decoded = jwtDecode(token);
-
-      cookies.set("jwt_authorization", token, {
-        expires: 1,
-      });
-      router.replace("/");
-    } catch (error) {
-      console.log("something went wrong", error);
-      throw error;
-    }
-  };
-
   return (
-    <div>
-      <form onSubmit={logIn}>
-        <input
-          type="text"
-          name="userName"
-          value={logInCreds.userName}
-          placeholder="Username"
-          onChange={onValueChange}
-        />
-        <input
-          type="password"
-          name="password"
-          value={logInCreds.password}
-          onChange={onValueChange}
-          placeholder="Password"
-        />
-        <button>Log In</button>
-        <p>
+    <div className="d-flex vh-100 align-items-center">
+      <Container className="col-4 m-auto">
+        <Card className="">
+          <div className="mx-5">
+            <Card.Img
+              src="/Contact.ify-black.svg"
+              alt="Logo"
+              width={50}
+              height={150}
+            />
+          </div>
+          <Card.Body>
+            <Form
+              noValidate
+              validate={isValid}
+              onSubmit={(e) => {
+                logIn(e, logInCreds, router);
+              }}
+            >
+              <Form.Group className="mb-3" controlId="formBasicEmail">
+                <Form.Label>Username</Form.Label>
+                <Form.Control
+                  required
+                  type="text"
+                  placeholder="Username"
+                  value={logInCreds.userName}
+                  onChange={onValueChange}
+                  name="userName"
+                />
+              </Form.Group>
+
+              <Form.Group className="mb-3" controlId="formBasicPassword">
+                <Form.Label>Password</Form.Label>
+                <Form.Control
+                  required
+                  type="password"
+                  placeholder="Password"
+                  value={logInCreds.password}
+                  onChange={onValueChange}
+                  name="password"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {/* change to normal text and move outside the form */}
+                  Password is incorrect
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Button variant="primary" type="submit">
+                Log In
+              </Button>
+            </Form>
+          </Card.Body>
+        </Card>
+        <p className="mt-3">
           New to Contact.ify?
-          <Link href="/auth/register">Register</Link>
+          <Link href="/auth/register" className="ms-2 text-primary">
+            Register
+          </Link>
         </p>
-      </form>
+      </Container>
     </div>
   );
 };

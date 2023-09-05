@@ -19,7 +19,12 @@ const NavBar = () => {
     <nav className="navbar navbar-expand-md bg-dark">
       <div className="container-fluid">
         <Link href="/">
-          <Image src="/Contact.ify.svg" height={50} width={150} alt="Logo" />
+          <Image
+            src="/Contact.ify-white.svg"
+            height={50}
+            width={150}
+            alt="Logo"
+          />
         </Link>
         {/* Search bar with responsive classes */}
         <form className="d-grid col-4">
