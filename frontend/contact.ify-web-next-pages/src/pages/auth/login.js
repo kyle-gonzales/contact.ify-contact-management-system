@@ -5,32 +5,34 @@ import Form from "react-bootstrap/Form";
 import Card from "react-bootstrap/Card";
 import AuthLayout from "@/components/AuthLayout";
 import Spinner from "react-bootstrap/Spinner";
-import useLogIn from "@/hooks/useLogIn";
 import loadingStatus from "@/utils/loadingStatus";
+import useLogIn from "@/hooks/useLogIn";
 
 const Login = () => {
   const { logIn, logInCreds, setLogInCreds, loadingState, setLoadingState } =
     useLogIn();
 
-  const [isValidPassword, setIsValidPassword] = useState(false);
   const [isValidUserName, setIsValidUserName] = useState(false);
+  const [isValidPassword, setIsValidPassword] = useState(false);
+  const [arePasswordsVisible, setArePasswordsVisible] = useState(false);
+
   const onValueChange = (e) => {
     const { name, value } = e.target;
     setLogInCreds({ ...logInCreds, [name]: value });
-    if (name === "password") {
-      if (value.length > 5) {
-        setIsValidPassword(true);
-        return;
-      } else {
-        setIsValidPassword(false);
-        return;
-      }
-    } else if (name === "userName") {
+    if (name === "userName") {
       if (value.length > 1) {
         setIsValidUserName(true);
         return;
       } else {
         setIsValidUserName(false);
+        return;
+      }
+    } else if (name === "password") {
+      if (value.length > 5) {
+        setIsValidPassword(true);
+        return;
+      } else {
+        setIsValidPassword(false);
         return;
       }
     }
@@ -60,11 +62,18 @@ const Login = () => {
               <Form.Label>Password</Form.Label>
               <Form.Control
                 required
-                type="password"
+                type={arePasswordsVisible ? "text" : "password"}
                 placeholder="Password"
                 value={logInCreds.password}
                 onChange={onValueChange}
                 name="password"
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Check
+                label="Show Password"
+                value={arePasswordsVisible}
+                onChange={() => setArePasswordsVisible((prev) => !prev)}
               />
             </Form.Group>
             <Button
