@@ -115,9 +115,11 @@ if (app.Environment.IsDevelopment())
 }
 // app.UseExceptionHandler("/Error");
 
-app.UseCors("Contact.ifyPolicy");
-
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("Contact.ifyPolicy");
 
 app.UseAuthentication();
 
