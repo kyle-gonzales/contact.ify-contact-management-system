@@ -47,7 +47,13 @@ const NavBar = () => {
         <div className="navbar-right">
           <Dropdown>
             <Dropdown.Toggle as={CustomToggle}>
-              <Image src="/favicon.ico" height={40} width={40} alt="User" />
+              <Image
+                src="/favicon.ico"
+                height={40}
+                width={40}
+                alt="User"
+                style={{ cursor: "pointer" }}
+              />
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <Dropdown.Item href="/user">Profile</Dropdown.Item>
