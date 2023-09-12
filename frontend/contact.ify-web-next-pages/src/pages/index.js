@@ -8,16 +8,8 @@ import { Container } from "react-bootstrap";
 
 export default function Home() {
   const router = useRouter();
-  const { contacts, setContacts, loadingState } = useContacts(router);
-
-  const favorites = useMemo(
-    () =>
-      contacts
-        .filter((contact) => contact.isFavorite == true)
-        .sort((contact) => contact.lastName),
-    [contacts]
-  );
-
+  const { contacts, setContacts, favorites, loadingState } =
+    useContacts(router);
   const { patchIsFavorite } = useIsFavorite(contacts, setContacts);
 
   if (loadingState !== loadingStatus.loaded)
