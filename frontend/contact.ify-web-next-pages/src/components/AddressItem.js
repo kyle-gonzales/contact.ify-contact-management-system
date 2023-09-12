@@ -1,8 +1,21 @@
+import { useState } from "react";
+import EditButton from "./EditButton";
+
 const AddressItem = ({ address }) => {
+  const [isHovered, setIsHovered] = useState(false);
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
   return (
-    <div>
+    <div
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
       {address.address}
-      <button onClick={() => {}}>Edit</button>
+      {isHovered && <EditButton />}
     </div>
   );
 };
