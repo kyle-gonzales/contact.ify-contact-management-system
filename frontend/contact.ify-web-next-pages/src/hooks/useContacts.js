@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import useGetRequest from "./useContactifyGetRequest";
 
 const useContacts = (router) => {
@@ -13,7 +13,17 @@ const useContacts = (router) => {
     fetchContacts();
   }, [get]);
 
-  return { contacts, setContacts, loadingState };
+  const favorites = useMemo(
+    () =>
+      !contacts
+        ? []
+        : contacts
+            .filter((contact) => contact.isFavorite == true)
+            .sort((contact) => contact.lastName),
+    [contacts]
+  );
+
+  return { contacts, setContacts, favorites, loadingState };
 };
 
 export default useContacts;

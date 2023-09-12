@@ -25,6 +25,9 @@ const useContactifyGetRequest = (endpoint, router) => {
       headers.append("Authorization", `Bearer ${token}`);
       const options = { headers: headers };
       const response = await fetch(`${API_BASE_URL}/${endpoint}`, options);
+
+      //TODO: add error handling
+
       const result = await response.json();
 
       setLoadingState(loadingStatus.loaded);
