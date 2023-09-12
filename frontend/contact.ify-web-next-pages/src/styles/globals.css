@@ -109,3 +109,12 @@ a {
 .auth-card {
   width: 350px; /* Set your desired fixed width here */
 }
+
+.icon-hover:hover {
+  color: gray;
+  transition: color 0.3s;
+}
+
+.save-button {
+  width: 70px;
+}
