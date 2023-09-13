@@ -2,120 +2,201 @@ import { useRouter } from "next/router";
 import useContact from "@/hooks/useContact";
 import LoadingIndicator from "@/components/LoadingIndicator";
 import loadingStatus from "@/utils/loadingStatus";
-import EmailItem from "@/components/EmailItem";
-import PhoneNumberItem from "@/components/PhoneNumberItem";
-import AddressItem from "@/components/AddressItem";
-import { Col, Container, Row, Table } from "react-bootstrap";
-import useIsFavorite from "@/hooks/useIsFavorite";
-import useContacts from "@/hooks/useContacts";
-import ContactName from "@/components/ContactName";
+import useIsFavoriteByContact from "@/hooks/useIsFavoriteByContact";
+import ContactModal from "@/components/ContactModal";
+import { useState, useEffect } from "react";
+import ContactNameForm from "@/components/ContactNameForm";
+import useEditContactName from "@/hooks/useEditContactName";
+import ContactInfo from "@/components/ContactInfo";
+import ContactEmailForm from "@/components/ContactEmailForm";
+import useAddEmail from "@/hooks/useAddEmail";
+import useAddPhoneNumber from "@/hooks/useAddPhoneNumber";
+import ContactPhoneNumberForm from "@/components/ContactPhoneNumberForm";
 
 const Contact = () => {
   const router = useRouter();
-  const { contacts, setContacts } = useContacts(router);
-  const { contact, setContact, loadingState } = useContact(router);
-  const { patchIsFavorite } = useIsFavorite(contacts, setContacts);
 
-  const editEmail = (email) => {
-    alert(email.email);
+  const [showEditContactName, setShowEditContactName] = useState(false);
+  const handleCloseEditContactName = () => setShowEditContactName(false);
+  const handleShowEditContactName = () => setShowEditContactName(true);
+
+  const [showAddEmail, setShowAddEmail] = useState(false);
+  const handleCloseAddEmail = () => setShowAddEmail(false);
+  const handleShowAddEmail = () => setShowAddEmail(true);
+
+  const [showEditEmail, setShowEditEmail] = useState(null);
+  const handleCloseEditEmail = () => setShowEditEmail(null);
+  const handleShowEditEmail = (email) => {
+    getEmail(email);
+    setShowEditEmail(true);
   };
+
+  const [showAddPhoneNumber, setShowAddPhoneNumber] = useState(false);
+  const handleCloseAddPhoneNumber = () => setShowAddPhoneNumber(false);
+  const handleShowAddPhoneNumber = () => setShowAddPhoneNumber(true);
+
+  const [showAddAddress, setShowAddAddress] = useState(false);
+  const handleCloseAddAddress = () => setShowAddAddress(false);
+  const handleShowAddAddress = () => setShowAddAddress(true);
+
+  // const [showEditContactName, setShowEditContactName] = useState(false);
+  // const handleCloseEditContactName = () => setShowEditContactName(false);
+  // const handleShowEditContactName = () => setShowEditContactName(true);
+
+  // const [showEditContactName, setShowEditContactName] = useState(false);
+  // const handleCloseEditContactName = () => setShowEditContactName(false);
+  // const handleShowEditContactName = () => setShowEditContactName(true);
+
+  const { contact, setContact, loadingState } = useContact(router);
+  const { patchIsFavorite } = useIsFavoriteByContact(contact, setContact);
+
+  const {
+    editContactLoadingState,
+    editContactName,
+    newContact,
+    setNewContact,
+    isValidFirstName,
+    setIsValidFirstName,
+    isValidLastName,
+    setIsValidLastName,
+    firstNameErrorMsg,
+    setFirstNameErrorMsg,
+    lastNameErrorMsg,
+    setLastNameErrorMsg,
+  } = useEditContactName(
+    contact,
+    setContact,
+    handleCloseEditContactName,
+    router
+  );
+
+  const {
+    addEmail,
+    setAddEmailLoadingState,
+    email,
+    setEmail,
+    isValidEmail,
+    setIsValidEmail,
+    emailErrorMsg,
+    setEmailErrorMsg,
+  } = useAddEmail(contact, setContact, handleCloseAddEmail, router);
+
+  const {
+    addPhoneNumber,
+    setAddPhoneNumberLoadingState,
+    phoneNumber,
+    setPhoneNumber,
+    isValidPhoneNumber,
+    setIsValidPhoneNumber,
+    phoneNumberErrorMsg,
+    setPhoneNumberErrorMsg,
+  } = useAddPhoneNumber(contact, setContact, handleCloseAddPhoneNumber, router);
+  /**
+   * TODO
+   * Modal for adding address, phone, email (show, handleClose, handleShow)
+   * Modal for updating address, phone, email (show, handleClose, handleShow)
+   *
+   * Maybe? Modal for confirm delete for address, phone, email (show, handleClose, handleShow)
+   *
+   * Modal for deleting contact (show, handleClose, handleShow)
+   *
+   * delete hook
+   *
+   * specific CRUD hooks for address, phone, email
+   */
 
   if (loadingState !== loadingStatus.loaded)
     return <LoadingIndicator loadingState={loadingState} />;
 
   return (
     <div>
-      <Container>
-        <Row className="justify-content-center">
-          <Col md="10" xl="9" xxl="8">
-            <div className="d-flex align-items-center">
-              <i
-                className="bi bi-arrow-left icon-hover"
-                style={{
-                  fontSize: "24px",
-                  cursor: "pointer",
-                  transition: "transform 0.3s",
-                }}
-                onClick={() => router.replace("/")}
-              />
-              <h3 className="w-100 m-0 ps-2">Edit Contact</h3>
-            </div>
-            <Container>
-              <Row className="">
-                <div className=" d-flex justify-content-center">
-                  <i
-                    className="bi bi-person-circle"
-                    style={{
-                      fontSize: "100px",
-                    }}
-                  />
-                </div>
-              </Row>
-              <Row className="">
-                <Col className="p-0">
-                  <ContactName
-                    contact={contact}
-                    patchIsFavorite={patchIsFavorite}
-                  />
-                  <Table borderless hover>
-                    <thead>
-                      <tr>
-                        <td>
-                          <h5>Emails</h5>
-                        </td>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {contact.emails.map((email) => (
-                        <tr key={email.contactEmailId}>
-                          <td>
-                            <EmailItem
-                              email={email}
-                              onEditClicked={() => {
-                                editEmail(email);
-                              }}
-                            />
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                  <div className="mb-4">
-                    <h5>Emails</h5>
-                    <ul>
-                      {contact.emails.map((email) => (
-                        <li key={email.contactEmailId}>
-                          <EmailItem email={email} />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mb-4">
-                    <h5>Phone Numbers</h5>
-                    <ul>
-                      {contact.phoneNumbers.map((phoneNumber) => (
-                        <li key={phoneNumber.contactPhoneNumberId}>
-                          <PhoneNumberItem phoneNumber={phoneNumber} />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                  <div className="mb-4">
-                    <h5>Addresses</h5>
-                    <ul>
-                      {contact.addresses.map((address) => (
-                        <li key={address.contactAddressId}>
-                          <AddressItem address={address} />
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </Col>
-              </Row>
-            </Container>
-          </Col>
-        </Row>
-      </Container>
+      <ContactModal
+        handleClose={handleCloseEditContactName}
+        setShow={setShowEditContactName}
+        show={showEditContactName}
+        isAdd={false}
+        type="Contact Name"
+      >
+        <ContactNameForm
+          submitForm={editContactName}
+          contact={newContact}
+          setContact={setNewContact}
+          isValidLastName={isValidLastName}
+          setIsValidLastName={setIsValidLastName}
+          isValidFirstName={isValidFirstName}
+          setIsValidFirstName={setIsValidFirstName}
+          lastNameErrorMsg={lastNameErrorMsg}
+          setLastNameErrorMsg={setLastNameErrorMsg}
+          firstNameErrorMsg={firstNameErrorMsg}
+          setFirstNameErrorMsg={setFirstNameErrorMsg}
+        />
+      </ContactModal>
+
+      <ContactModal
+        show={showAddEmail}
+        handleClose={handleCloseAddEmail}
+        isAdd={true}
+        type="Email"
+      >
+        <ContactEmailForm
+          submitForm={addEmail}
+          email={email}
+          setEmail={setEmail}
+          isValidEmail={isValidEmail}
+          setIsValidEmail={setIsValidEmail}
+          emailErrorMsg={emailErrorMsg}
+          setEmailErrorMsg={setEmailErrorMsg}
+        />
+      </ContactModal>
+
+      <ContactModal
+        handleClose={handleCloseAddPhoneNumber}
+        setShow={setShowAddPhoneNumber}
+        show={showAddPhoneNumber}
+        isAdd={true}
+        type="Phone Number"
+      >
+        <ContactPhoneNumberForm
+          submitForm={addPhoneNumber}
+          phoneNumber={phoneNumber}
+          setPhoneNumber={setPhoneNumber}
+          isValidPhoneNumber={isValidPhoneNumber}
+          setIsValidPhoneNumber={setIsValidPhoneNumber}
+          phoneNumberErrorMsg={phoneNumberErrorMsg}
+          setPhoneNumberErrorMsg={setPhoneNumberErrorMsg}
+        />
+      </ContactModal>
+
+      <ContactModal
+        handleClose={handleCloseAddAddress}
+        setShow={setShowAddAddress}
+        show={showAddAddress}
+        isAdd={true}
+        type="Address"
+      >
+        {/* <ContactEmailForm
+          email={email}
+          setEmail={setEmail}
+          isValidEmail={isValidEmail}
+          setIsValidEmail={setIsValidEmail}
+          emailErrorMsg={emailErrorMsg}
+          setEmailErrorMsg={setEmailErrorMsg}
+          submitForm={addEmail}
+        /> */}
+      </ContactModal>
+
+      <ContactInfo
+        contact={contact}
+        patchIsFavorite={patchIsFavorite}
+        router={router}
+        handleShowEditContactName={handleShowEditContactName}
+        handleShowAddEmail={handleShowAddEmail}
+        handleShowEditEmail={() => {}}
+        handleShowAddPhoneNumber={handleShowAddPhoneNumber}
+        handleShowEditPhoneNumber={() => {}}
+        handleShowAddAddress={handleShowAddAddress}
+        handleShowEditAddress={() => {}}
+      />
     </div>
   );
 };
