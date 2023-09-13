@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { default as EditButton } from "./EditButton";
 
-const ContactName = ({ contact, patchIsFavorite }) => {
+const ContactName = ({ contact, patchIsFavorite, onEditClicked }) => {
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -18,7 +18,7 @@ const ContactName = ({ contact, patchIsFavorite }) => {
       <div
         className="me-4 p-0"
         onClick={() =>
-          patchIsFavorite(`contacts/${contact.contactId}`, contact)
+          patchIsFavorite(`contacts/${contact.contactId}`)
         }
         style={{ cursor: "pointer" }}
       >
@@ -29,7 +29,7 @@ const ContactName = ({ contact, patchIsFavorite }) => {
         )}
       </div>
       <p className="h4 m-0">{contact.name}</p>
-      {isHovered && <EditButton />}
+      {isHovered && <EditButton onEditClicked={onEditClicked} />}
     </div>
   );
 };

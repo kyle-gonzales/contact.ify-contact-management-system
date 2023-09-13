@@ -1,7 +1,7 @@
 import { useState } from "react";
 import EditButton from "./EditButton";
 
-const AddressItem = ({ address }) => {
+const AddressItem = ({ address, onEditClicked }) => {
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -13,9 +13,10 @@ const AddressItem = ({ address }) => {
     <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      className="d-flex align-items-center"
     >
-      {address.address}
-      {isHovered && <EditButton />}
+      <span>{address.address}</span>
+      {isHovered && <EditButton onEditClicked={onEditClicked} />}
     </div>
   );
 };
