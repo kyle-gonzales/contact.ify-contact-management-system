@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import useContactifyPostRequest from "./useNewContactifyPostRequest";
+import useContactifyPostRequest from "./useContactifyPostRequest";
 import loadingStatus from "@/utils/loadingStatus";
 
 const useNewContact = (router) => {
