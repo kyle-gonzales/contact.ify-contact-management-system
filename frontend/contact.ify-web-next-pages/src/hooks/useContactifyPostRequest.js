@@ -8,7 +8,7 @@ const useContactifyPostRequest = (endpoint, router) => {
   const [loadingState, setLoadingState] = useState(null);
 
   const post = useCallback(
-    async (body) => {
+    async (body, isBodyString=false) => {
       setLoadingState(loadingStatus.isLoading);
 
       try {
@@ -27,6 +27,8 @@ const useContactifyPostRequest = (endpoint, router) => {
         // https://github.com/vercel/next.js/discussions/11484
         if (!endpoint) return;
 
+        const bodyValue = isBodyString ? body : JSON.stringify({ userId, ...body })
+
         //POST
         const options = {
           method: "POST",
@@ -34,7 +36,7 @@ const useContactifyPostRequest = (endpoint, router) => {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ userId, ...body }),
+          body: bodyValue,
         };
         const response = await fetch(`${API_BASE_URL}/${endpoint}`, options); //specific POST hook handles errors
         console.log(response);
