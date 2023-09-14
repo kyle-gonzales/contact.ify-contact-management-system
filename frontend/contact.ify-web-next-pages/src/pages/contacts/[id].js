@@ -62,9 +62,11 @@ const Contact = () => {
 
   const {
     editContactLoadingState,
+
     editContactName,
     newContact,
     setNewContact,
+    
     firstNameErrorMsg,
     setFirstNameErrorMsg,
     lastNameErrorMsg,
@@ -78,9 +80,11 @@ const Contact = () => {
 
   const {
     setAddEmailLoadingState,
+
     addEmail,
     email,
     setEmail,
+
     emailErrorMsg,
     setEmailErrorMsg,
   } = useAddEmail(
@@ -93,9 +97,11 @@ const Contact = () => {
 
   const {
     setEditEmailLoadingState,
+
     editEmail,
     newEmail,
     setNewEmail,
+
     newEmailErrorMsg,
     setNewEmailErrorMsg,
   } = useEditEmail(
@@ -106,13 +112,15 @@ const Contact = () => {
     router
   );
   const {
-    addPhoneNumber,
     setAddPhoneNumberLoadingState,
+
+    addPhoneNumber,
     phoneNumber,
     setPhoneNumber,
+
     phoneNumberErrorMsg,
     setPhoneNumberErrorMsg,
-  } = useAddPhoneNumber(contact, setContact, handleCloseAddPhoneNumber, router);
+  } = useAddPhoneNumber(contact, setContact ,handleCloseAddPhoneNumber, router);
 
   const {
     addAddress,

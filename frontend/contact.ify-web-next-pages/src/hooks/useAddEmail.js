@@ -24,8 +24,8 @@ const useAddEmail = (
 
   const {
     post,
-    loadingState: setAddEmailLoadingState,
-    setLoadingState,
+    loadingState,
+    setLoadingState: setAddEmailLoadingState,
   } = useContactifyPostRequest(
     contact ? `contacts/${contactId}/emails` : null,
     router
@@ -38,7 +38,7 @@ const useAddEmail = (
 
   const addEmail = useCallback(
     async (e) => {
-      setLoadingState(loadingStatus.isLoading);
+      setAddEmailLoadingState(loadingStatus.isLoading);
       e.preventDefault();
       try {
         const response = await post(email);
@@ -58,7 +58,7 @@ const useAddEmail = (
         const result = await response.text();
         email.contactEmailId = result;
 
-        setLoadingState(null);
+        setAddEmailLoadingState(null);
         setContact((current) => ({
           ...current,
           emails: [...current.emails, email],
@@ -66,16 +66,16 @@ const useAddEmail = (
         setEmail(defaultEmail); //reset form
         handleClose();
       } catch (error) {
-        setLoadingState(loadingStatus.hasErrored);
+        setAddEmailLoadingState(loadingStatus.hasErrored);
         console.log("something went wrong", error);
       }
     },
-    [email, handleClose, post, setContact, setLoadingState]
+    [email, handleClose, post, setContact, setAddEmailLoadingState]
   );
 
   return {
-    addEmail,
     setAddEmailLoadingState,
+    addEmail,
     email,
     setEmail,
     emailErrorMsg,

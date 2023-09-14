@@ -12,8 +12,8 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
 
   const {
     post,
-    loadingState: setAddPhoneNumberLoadingState,
-    setLoadingState,
+    loadingState,
+    setLoadingState: setAddPhoneNumberLoadingState,
   } = useContactifyPostRequest(
     contact ? `contacts/${contactId}/phoneNumbers` : null,
     router
@@ -24,7 +24,7 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
 
   const addPhoneNumber = useCallback(
     async (e) => {
-      setLoadingState(loadingStatus.isLoading);
+      setAddPhoneNumberLoadingState(loadingStatus.isLoading);
       e.preventDefault();
       try {
         const response = await post(phoneNumber);
@@ -44,7 +44,7 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
         const result = await response.text();
         phoneNumber.contactPhoneNumberId = result;
 
-        setLoadingState(null);
+        setAddPhoneNumberLoadingState(null);
         setContact((current) => ({
           ...current,
           phoneNumbers: [...current.phoneNumbers, phoneNumber],
@@ -52,16 +52,16 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
         setPhoneNumber({ phoneNumber: "" }); //reset form
         handleClose();
       } catch (error) {
-        setLoadingState(loadingStatus.hasErrored);
+        setAddPhoneNumberLoadingState(loadingStatus.hasErrored);
         console.log("something went wrong", error);
       }
     },
-    [phoneNumber, handleClose, post, setContact, setLoadingState]
+    [setAddPhoneNumberLoadingState, post, phoneNumber, setContact, handleClose]
   );
 
   return {
-    addPhoneNumber,
     setAddPhoneNumberLoadingState,
+    addPhoneNumber,
     phoneNumber,
     setPhoneNumber,
     phoneNumberErrorMsg,
