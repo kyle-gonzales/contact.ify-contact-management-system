@@ -12,6 +12,8 @@ import ContactEmailForm from "@/components/ContactEmailForm";
 import useAddEmail from "@/hooks/useAddEmail";
 import useAddPhoneNumber from "@/hooks/useAddPhoneNumber";
 import ContactPhoneNumberForm from "@/components/ContactPhoneNumberForm";
+import ContactAddressForm from "@/components/ContactAddressForm";
+import useAddAddress from "@/hooks/useAddAddress";
 
 const Contact = () => {
   const router = useRouter();
@@ -91,19 +93,24 @@ const Contact = () => {
     phoneNumberErrorMsg,
     setPhoneNumberErrorMsg,
   } = useAddPhoneNumber(contact, setContact, handleCloseAddPhoneNumber, router);
-  /**
-   * TODO
-   * Modal for adding address, phone, email (show, handleClose, handleShow)
-   * Modal for updating address, phone, email (show, handleClose, handleShow)
-   *
-   * Maybe? Modal for confirm delete for address, phone, email (show, handleClose, handleShow)
-   *
-   * Modal for deleting contact (show, handleClose, handleShow)
-   *
-   * delete hook
-   *
-   * specific CRUD hooks for address, phone, email
-   */
+
+  const {
+    addAddress,
+    address,
+    setAddress,
+    streetErrorMsg,
+    setStreetErrorMsg,
+    cityErrorMsg,
+    setCityErrorMsg,
+    provinceErrorMsg,
+    setProvinceErrorMsg,
+    countryErrorMsg,
+    setCountryErrorMsg,
+    zipCodeErrorMsg,
+    setZipCodeErrorMsg,
+    addressTypeErrorMsg,
+    setAddressTypeErrorMsg,
+  } = useAddAddress(contact, setContact, handleCloseAddAddress, router);
 
   if (loadingState !== loadingStatus.loaded)
     return <LoadingIndicator loadingState={loadingState} />;
@@ -160,8 +167,31 @@ const Contact = () => {
           submitForm={addPhoneNumber}
           phoneNumber={phoneNumber}
           setPhoneNumber={setPhoneNumber}
-          isValidPhoneNumber={isValidPhoneNumber}
-          setIsValidPhoneNumber={setIsValidPhoneNumber}
+      <ContactModal
+        handleClose={handleCloseAddAddress}
+        setShow={setShowAddAddress}
+        show={showAddAddress}
+        isAdd={true}
+        type="Address"
+      >
+        <ContactAddressForm
+          submitForm={addAddress}
+          address={address}
+          setAddress={setAddress}
+          streetErrorMsg={streetErrorMsg}
+          setStreetErrorMsg={setStreetErrorMsg}
+          cityErrorMsg={cityErrorMsg}
+          setCityErrorMsg={setCityErrorMsg}
+          provinceErrorMsg={provinceErrorMsg}
+          setProvinceErrorMsg={setProvinceErrorMsg}
+          countryErrorMsg={countryErrorMsg}
+          setCountryErrorMsg={setCountryErrorMsg}
+          zipCodeErrorMsg={zipCodeErrorMsg}
+          setZipCodeErrorMsg={setZipCodeErrorMsg}
+          addressTypeErrorMsg={addressTypeErrorMsg}
+          setAddressTypeErrorMsg={setAddressTypeErrorMsg}
+        />
+      </ContactModal>
           phoneNumberErrorMsg={phoneNumberErrorMsg}
           setPhoneNumberErrorMsg={setPhoneNumberErrorMsg}
         />
