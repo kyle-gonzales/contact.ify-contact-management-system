@@ -45,7 +45,7 @@ const useAddEmail = (contact, setContact, handleClose, router) => {
         }
 
         const result = await response.text();
-        console.log(result);
+        email.contactEmailId = result;
 
         setEmail({ email: "" }); //reset form
         setLoadingState(null);
@@ -53,6 +53,7 @@ const useAddEmail = (contact, setContact, handleClose, router) => {
           ...current,
           emails: [...current.emails, email],
         }));
+        setEmail(defaultEmail); //reset form
         handleClose();
       } catch (error) {
         setLoadingState(loadingStatus.hasErrored);

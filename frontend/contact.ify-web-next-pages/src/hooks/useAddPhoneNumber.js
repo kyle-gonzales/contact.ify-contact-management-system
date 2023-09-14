@@ -44,7 +44,7 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
         }
 
         const result = await response.text();
-        console.log(result);
+        phoneNumber.contactPhoneNumberId = result;
 
         setPhoneNumber({ phoneNumber: "" }); //reset form
         setLoadingState(null);
@@ -52,6 +52,7 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
           ...current,
           phoneNumbers: [...current.phoneNumbers, phoneNumber],
         }));
+        setPhoneNumber({ phoneNumber: "" }); //reset form
         handleClose();
       } catch (error) {
         setLoadingState(loadingStatus.hasErrored);
