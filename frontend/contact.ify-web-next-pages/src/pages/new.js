@@ -18,10 +18,6 @@ const New = () => {
     setLoadingState,
     contact,
     setContact,
-    isValidFirstName,
-    setIsValidFirstName,
-    isValidLastName,
-    setIsValidLastName,
     firstNameErrorMsg,
     setFirstNameErrorMsg,
     lastNameErrorMsg,
@@ -68,10 +64,6 @@ const New = () => {
             submitForm={postContact}
             contact={contact}
             setContact={setContact}
-            isValidLastName={isValidLastName}
-            setIsValidLastName={setIsValidLastName}
-            isValidFirstName={isValidFirstName}
-            setIsValidFirstName={setIsValidFirstName}
             lastNameErrorMsg={lastNameErrorMsg}
             setLastNameErrorMsg={setLastNameErrorMsg}
             firstNameErrorMsg={firstNameErrorMsg}

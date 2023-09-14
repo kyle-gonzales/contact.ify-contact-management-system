@@ -4,8 +4,6 @@ const ContactPhoneNumberForm = ({
   submitForm,
   phoneNumber,
   setPhoneNumber,
-  isValidPhoneNumber,
-  setIsValidPhoneNumber,
   phoneNumberErrorMsg,
   setPhoneNumberErrorMsg,
 }) => {
@@ -14,12 +12,10 @@ const ContactPhoneNumberForm = ({
     setPhoneNumber({ ...phoneNumber, [name]: value });
     if (name === "phoneNumber") {
       if (value.length <= 20 || value.length === 0) {
-        setIsValidPhoneNumber(true);
         setPhoneNumberErrorMsg(null);
         return;
       } else {
-        setIsValidPhoneNumber(false);
-        setPhoneNumberErrorMsg("PhoneNumber must be less than 20 digits");
+        setPhoneNumberErrorMsg("Phone Number must be less than 20 digits");
         return;
       }
     }
@@ -36,7 +32,7 @@ const ContactPhoneNumberForm = ({
           value={phoneNumber.phoneNumber}
           onChange={onValueChange}
           name="phoneNumber"
-          isInvalid={!isValidPhoneNumber}
+          isInvalid={phoneNumberErrorMsg !== null}
         />
         <Form.Control.Feedback type="invalid">
           {phoneNumberErrorMsg}

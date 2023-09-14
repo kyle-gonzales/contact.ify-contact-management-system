@@ -9,9 +9,6 @@ const useNewContact = (router) => {
   );
   const [contact, setContact] = useState({ lastName: "", firstName: "" });
 
-  const [isValidFirstName, setIsValidFirstName] = useState(true);
-  const [isValidLastName, setIsValidLastName] = useState(true);
-
   const [lastNameErrorMsg, setLastNameErrorMsg] = useState(null);
   const [firstNameErrorMsg, setFirstNameErrorMsg] = useState(null);
 
@@ -21,7 +18,6 @@ const useNewContact = (router) => {
       e.preventDefault();
       try {
         const response = await post(contact);
-        console.log(response);
 
         if (!response.ok) {
           const error = await response.json();
@@ -30,11 +26,9 @@ const useNewContact = (router) => {
             alert("Something went wrong. UserId from token is missing");
           }
           if (error.errors.FirstName) {
-            setIsValidFirstName(false);
             setFirstNameErrorMsg(error.errors.FirstName[0]);
           }
           if (error.errors.LastName) {
-            setIsValidLastName(false);
             setLastNameErrorMsg(error.errors.LastName[0]);
           }
           return;
@@ -58,10 +52,6 @@ const useNewContact = (router) => {
     setLoadingState,
     contact,
     setContact,
-    isValidFirstName,
-    setIsValidFirstName,
-    isValidLastName,
-    setIsValidLastName,
     firstNameErrorMsg,
     setFirstNameErrorMsg,
     lastNameErrorMsg,

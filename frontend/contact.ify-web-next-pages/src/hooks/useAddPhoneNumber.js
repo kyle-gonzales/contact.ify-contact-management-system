@@ -20,7 +20,6 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
   );
 
   const [phoneNumber, setPhoneNumber] = useState({ phoneNumber: "" });
-  const [isValidPhoneNumber, setIsValidPhoneNumber] = useState(true);
   const [phoneNumberErrorMsg, setPhoneNumberErrorMsg] = useState(null);
 
   const addPhoneNumber = useCallback(
@@ -37,7 +36,6 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
             alert("Something went wrong. UserId from token is missing");
           }
           if (error.errors.PhoneNumber) {
-            setIsValidPhoneNumber(false);
             setPhoneNumberErrorMsg(error.errors.PhoneNumber[0]);
           }
           return;
@@ -46,7 +44,6 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
         const result = await response.text();
         phoneNumber.contactPhoneNumberId = result;
 
-        setPhoneNumber({ phoneNumber: "" }); //reset form
         setLoadingState(null);
         setContact((current) => ({
           ...current,
@@ -67,8 +64,6 @@ const useAddPhoneNumber = (contact, setContact, handleClose, router) => {
     setAddPhoneNumberLoadingState,
     phoneNumber,
     setPhoneNumber,
-    isValidPhoneNumber,
-    setIsValidPhoneNumber,
     phoneNumberErrorMsg,
     setPhoneNumberErrorMsg,
   };

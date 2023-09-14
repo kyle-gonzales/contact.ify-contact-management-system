@@ -29,8 +29,6 @@ const useEditContactName = (contact, setContact, handleClose, router) => {
     }));
   }, [contact]);
 
-  const [isValidFirstName, setIsValidFirstName] = useState(true);
-  const [isValidLastName, setIsValidLastName] = useState(true);
 
   const [lastNameErrorMsg, setLastNameErrorMsg] = useState(null);
   const [firstNameErrorMsg, setFirstNameErrorMsg] = useState(null);
@@ -52,11 +50,9 @@ const useEditContactName = (contact, setContact, handleClose, router) => {
           }
           //TODO: fix api endpoint to return proper json
           if (error.errors.FirstName) {
-            setIsValidFirstName(false);
             setFirstNameErrorMsg(error.errors.FirstName[0]);
           }
           if (error.errors.LastName) {
-            setIsValidLastName(false);
             setLastNameErrorMsg(error.errors.LastName[0]);
           }
           return;
@@ -100,10 +96,6 @@ const useEditContactName = (contact, setContact, handleClose, router) => {
     editContactName,
     newContact,
     setNewContact,
-    isValidFirstName,
-    setIsValidFirstName,
-    isValidLastName,
-    setIsValidLastName,
     firstNameErrorMsg,
     setFirstNameErrorMsg,
     lastNameErrorMsg,

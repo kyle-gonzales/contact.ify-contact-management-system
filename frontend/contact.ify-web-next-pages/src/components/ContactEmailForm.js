@@ -5,8 +5,6 @@ const ContactEmailForm = ({
   submitForm,
   email,
   setEmail,
-  isValidEmail,
-  setIsValidEmail,
   emailErrorMsg,
   setEmailErrorMsg,
 }) => {
@@ -15,11 +13,9 @@ const ContactEmailForm = ({
     setEmail({ ...email, [name]: value });
     if (name === "email") {
       if (isValidEmailUtil(value) || value.length === 0) {
-        setIsValidEmail(true);
         setEmailErrorMsg(null);
         return;
       } else {
-        setIsValidEmail(false);
         setEmailErrorMsg("Email is invalid");
         return;
       }
@@ -37,7 +33,7 @@ const ContactEmailForm = ({
           value={email.email}
           onChange={onValueChange}
           name="email"
-          isInvalid={!isValidEmail}
+          isInvalid={emailErrorMsg !== null}
         />
         <Form.Control.Feedback type="invalid">
           {emailErrorMsg}

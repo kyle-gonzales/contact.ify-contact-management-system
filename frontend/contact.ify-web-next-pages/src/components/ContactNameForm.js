@@ -4,10 +4,6 @@ const ContactNameForm = ({
   submitForm,
   contact,
   setContact,
-  isValidLastName,
-  setIsValidLastName,
-  isValidFirstName,
-  setIsValidFirstName,
   lastNameErrorMsg,
   setLastNameErrorMsg,
   firstNameErrorMsg,
@@ -18,20 +14,22 @@ const ContactNameForm = ({
     setContact({ ...contact, [name]: value });
     if (name === "firstName") {
       if ((value.length > 1 && value.length <= 35) || value.length === 0) {
-        setIsValidFirstName(true);
         setFirstNameErrorMsg(null);
         return;
       } else {
-        setIsValidFirstName(false);
+        setFirstNameErrorMsg(
+          "First Name must be between 2 and 35 characters long"
+        );
         return;
       }
     } else if (name === "lastName") {
       if ((value.length > 1 && value.length <= 35) || value.length === 0) {
-        setIsValidLastName(true);
         setLastNameErrorMsg(null);
         return;
       } else {
-        setIsValidLastName(false);
+        setLastNameErrorMsg(
+          "Last Name must be between 2 and 35 characters long"
+        );
         return;
       }
     }
@@ -48,11 +46,10 @@ const ContactNameForm = ({
           value={contact.lastName}
           onChange={onValueChange}
           name="lastName"
-          isInvalid={!isValidLastName}
+          isInvalid={lastNameErrorMsg !== null}
         />
         <Form.Control.Feedback type="invalid">
-          {lastNameErrorMsg ??
-            "Last Name must be between 2 and 35 characters long"}
+          {lastNameErrorMsg}
         </Form.Control.Feedback>
       </Form.Group>
 
@@ -65,11 +62,10 @@ const ContactNameForm = ({
           value={contact.firstName}
           onChange={onValueChange}
           name="firstName"
-          isInvalid={!isValidFirstName}
+          isInvalid={firstNameErrorMsg !== null}
         />
         <Form.Control.Feedback type="invalid">
-          {firstNameErrorMsg ??
-            "First Name must be between 2 and 35 characters long"}
+          {firstNameErrorMsg}
         </Form.Control.Feedback>
       </Form.Group>
     </Form>

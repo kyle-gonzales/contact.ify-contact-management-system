@@ -2,14 +2,25 @@ import { useCallback, useEffect, useState } from "react";
 import useContactifyPostRequest from "./useContactifyPostRequest";
 import loadingStatus from "@/utils/loadingStatus";
 
-const useAddEmail = (contact, setContact, handleClose, router) => {
+const defaultEmail = { email: "" };
+
+const useAddEmail = (
+  contact,
+  setContact,
+  showAddEmail,
+  handleClose,
+  router
+) => {
   const [contactId, setContactId] = useState(null);
-  // console.log(contactId);
+
   useEffect(() => {
     if (!contact) return;
 
     setContactId(contact.contactId);
   }, [contact]);
+
+  const [email, setEmail] = useState(defaultEmail);
+  const [emailErrorMsg, setEmailErrorMsg] = useState(null);
 
   const {
     post,
@@ -20,9 +31,10 @@ const useAddEmail = (contact, setContact, handleClose, router) => {
     router
   );
 
-  const [email, setEmail] = useState({ email: "" });
-  const [isValidEmail, setIsValidEmail] = useState(true);
-  const [emailErrorMsg, setEmailErrorMsg] = useState(null);
+  useEffect(() => {
+    setEmail(defaultEmail);
+    setEmailErrorMsg(null);
+  }, [showAddEmail]);
 
   const addEmail = useCallback(
     async (e) => {
@@ -38,16 +50,14 @@ const useAddEmail = (contact, setContact, handleClose, router) => {
             alert("Something went wrong. UserId from token is missing");
           }
           if (error.errors.Email) {
-            setIsValidEmail(false);
+            // setIsValidEmail(false);
             setEmailErrorMsg(error.errors.Email[0]);
           }
           return;
         }
-
         const result = await response.text();
         email.contactEmailId = result;
 
-        setEmail({ email: "" }); //reset form
         setLoadingState(null);
         setContact((current) => ({
           ...current,
@@ -68,8 +78,6 @@ const useAddEmail = (contact, setContact, handleClose, router) => {
     setAddEmailLoadingState,
     email,
     setEmail,
-    isValidEmail,
-    setIsValidEmail,
     emailErrorMsg,
     setEmailErrorMsg,
   };
