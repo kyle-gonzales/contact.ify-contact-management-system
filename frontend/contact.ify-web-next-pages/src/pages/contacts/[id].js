@@ -65,10 +65,6 @@ const Contact = () => {
     editContactName,
     newContact,
     setNewContact,
-    isValidFirstName,
-    setIsValidFirstName,
-    isValidLastName,
-    setIsValidLastName,
     firstNameErrorMsg,
     setFirstNameErrorMsg,
     lastNameErrorMsg,
@@ -81,15 +77,19 @@ const Contact = () => {
   );
 
   const {
-    addEmail,
     setAddEmailLoadingState,
+    addEmail,
     email,
     setEmail,
-    isValidEmail,
-    setIsValidEmail,
     emailErrorMsg,
     setEmailErrorMsg,
-  } = useAddEmail(contact, setContact, handleCloseAddEmail, router);
+  } = useAddEmail(
+    contact,
+    setContact,
+    showAddEmail,
+    handleCloseAddEmail,
+    router
+  );
 
   const {
     setEditEmailLoadingState,
@@ -110,8 +110,6 @@ const Contact = () => {
     setAddPhoneNumberLoadingState,
     phoneNumber,
     setPhoneNumber,
-    isValidPhoneNumber,
-    setIsValidPhoneNumber,
     phoneNumberErrorMsg,
     setPhoneNumberErrorMsg,
   } = useAddPhoneNumber(contact, setContact, handleCloseAddPhoneNumber, router);
@@ -150,10 +148,6 @@ const Contact = () => {
           submitForm={editContactName}
           contact={newContact}
           setContact={setNewContact}
-          isValidLastName={isValidLastName}
-          setIsValidLastName={setIsValidLastName}
-          isValidFirstName={isValidFirstName}
-          setIsValidFirstName={setIsValidFirstName}
           lastNameErrorMsg={lastNameErrorMsg}
           setLastNameErrorMsg={setLastNameErrorMsg}
           firstNameErrorMsg={firstNameErrorMsg}
@@ -171,8 +165,6 @@ const Contact = () => {
           submitForm={addEmail}
           email={email}
           setEmail={setEmail}
-          isValidEmail={isValidEmail}
-          setIsValidEmail={setIsValidEmail}
           emailErrorMsg={emailErrorMsg}
           setEmailErrorMsg={setEmailErrorMsg}
         />
@@ -189,6 +181,11 @@ const Contact = () => {
           submitForm={addPhoneNumber}
           phoneNumber={phoneNumber}
           setPhoneNumber={setPhoneNumber}
+          phoneNumberErrorMsg={phoneNumberErrorMsg}
+          setPhoneNumberErrorMsg={setPhoneNumberErrorMsg}
+        />
+      </ContactModal>
+
       <ContactModal
         handleClose={handleCloseAddAddress}
         setShow={setShowAddAddress}
@@ -230,6 +227,31 @@ const Contact = () => {
         />
       </ContactModal>
 
+      <ContactInfo
+        contact={contact}
+        patchIsFavorite={patchIsFavorite}
+        router={router}
+        handleShowEditContactName={handleShowEditContactName}
+        handleShowAddEmail={handleShowAddEmail}
+        handleShowEditEmail={handleShowEditEmail}
+        handleShowAddPhoneNumber={handleShowAddPhoneNumber}
+        handleShowEditPhoneNumber={() => {}}
+        handleShowAddAddress={handleShowAddAddress}
+        handleShowEditAddress={() => {}}
+      />
+
+      {/*
+      <ContactModal
+        handleClose={handleCloseAddPhoneNumber}
+        setShow={setShowAddPhoneNumber}
+        show={showAddPhoneNumber}
+        isAdd={true}
+        type="Phone Number"
+      >
+        <ContactPhoneNumberForm
+          submitForm={addPhoneNumber}
+          phoneNumber={phoneNumber}
+          setPhoneNumber={setPhoneNumber}
           phoneNumberErrorMsg={phoneNumberErrorMsg}
           setPhoneNumberErrorMsg={setPhoneNumberErrorMsg}
         />
@@ -242,15 +264,23 @@ const Contact = () => {
         isAdd={true}
         type="Address"
       >
-        {/* <ContactEmailForm
-          email={email}
-          setEmail={setEmail}
-          isValidEmail={isValidEmail}
-          setIsValidEmail={setIsValidEmail}
-          emailErrorMsg={emailErrorMsg}
-          setEmailErrorMsg={setEmailErrorMsg}
-          submitForm={addEmail}
-        /> */}
+        <ContactAddressForm
+          submitForm={addAddress}
+          address={address}
+          setAddress={setAddress}
+          streetErrorMsg={streetErrorMsg}
+          setStreetErrorMsg={setStreetErrorMsg}
+          cityErrorMsg={cityErrorMsg}
+          setCityErrorMsg={setCityErrorMsg}
+          provinceErrorMsg={provinceErrorMsg}
+          setProvinceErrorMsg={setProvinceErrorMsg}
+          countryErrorMsg={countryErrorMsg}
+          setCountryErrorMsg={setCountryErrorMsg}
+          zipCodeErrorMsg={zipCodeErrorMsg}
+          setZipCodeErrorMsg={setZipCodeErrorMsg}
+          addressTypeErrorMsg={addressTypeErrorMsg}
+          setAddressTypeErrorMsg={setAddressTypeErrorMsg}
+        />
       </ContactModal>
 
       <ContactInfo
@@ -264,7 +294,7 @@ const Contact = () => {
         handleShowEditPhoneNumber={() => {}}
         handleShowAddAddress={handleShowAddAddress}
         handleShowEditAddress={() => {}}
-      />
+      /> */}
     </div>
   );
 };
