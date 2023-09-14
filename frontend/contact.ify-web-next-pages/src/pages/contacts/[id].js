@@ -14,9 +14,14 @@ import useAddPhoneNumber from "@/hooks/useAddPhoneNumber";
 import ContactPhoneNumberForm from "@/components/ContactPhoneNumberForm";
 import ContactAddressForm from "@/components/ContactAddressForm";
 import useAddAddress from "@/hooks/useAddAddress";
+import useEditEmail from "@/hooks/useEditEmail";
 
 const Contact = () => {
   const router = useRouter();
+
+  const [selectedEmail, setSelectedEmail] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [selectedPhoneNumber, setSelectedPhoneNumber] = useState(null);
 
   const [showEditContactName, setShowEditContactName] = useState(false);
   const handleCloseEditContactName = () => setShowEditContactName(false);
@@ -26,11 +31,14 @@ const Contact = () => {
   const handleCloseAddEmail = () => setShowAddEmail(false);
   const handleShowAddEmail = () => setShowAddEmail(true);
 
-  const [showEditEmail, setShowEditEmail] = useState(null);
-  const handleCloseEditEmail = () => setShowEditEmail(null);
+  const [showEditEmail, setShowEditEmail] = useState(false);
+  const handleCloseEditEmail = () => {
+    setShowEditEmail(false);
+    setSelectedEmail(null);
+  };
   const handleShowEditEmail = (email) => {
-    getEmail(email);
     setShowEditEmail(true);
+    setSelectedEmail(email);
   };
 
   const [showAddPhoneNumber, setShowAddPhoneNumber] = useState(false);
@@ -83,6 +91,20 @@ const Contact = () => {
     setEmailErrorMsg,
   } = useAddEmail(contact, setContact, handleCloseAddEmail, router);
 
+  const {
+    setEditEmailLoadingState,
+    editEmail,
+    newEmail,
+    setNewEmail,
+    newEmailErrorMsg,
+    setNewEmailErrorMsg,
+  } = useEditEmail(
+    contact,
+    setContact,
+    selectedEmail,
+    handleCloseEditEmail,
+    router
+  );
   const {
     addPhoneNumber,
     setAddPhoneNumberLoadingState,
@@ -192,6 +214,22 @@ const Contact = () => {
           setAddressTypeErrorMsg={setAddressTypeErrorMsg}
         />
       </ContactModal>
+
+      <ContactModal
+        show={showEditEmail}
+        handleClose={handleCloseEditEmail}
+        isAdd={false}
+        type="Email"
+      >
+        <ContactEmailForm
+          submitForm={editEmail}
+          email={newEmail}
+          setEmail={setNewEmail}
+          emailErrorMsg={newEmailErrorMsg}
+          setEmailErrorMsg={setNewEmailErrorMsg}
+        />
+      </ContactModal>
+
           phoneNumberErrorMsg={phoneNumberErrorMsg}
           setPhoneNumberErrorMsg={setPhoneNumberErrorMsg}
         />
