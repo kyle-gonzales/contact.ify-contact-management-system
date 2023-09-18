@@ -2,12 +2,14 @@ import { useCallback, useState } from "react";
 import useContactifyPostRequest from "./useContactifyPostRequest";
 import loadingStatus from "@/utils/loadingStatus";
 
+const defaultContact = { lastName: "" };
+
 const useNewContact = (router) => {
   const { post, loadingState, setLoadingState } = useContactifyPostRequest(
     "contacts",
     router
   );
-  const [contact, setContact] = useState({ lastName: "", firstName: "" });
+  const [contact, setContact] = useState(defaultContact);
 
   const [lastNameErrorMsg, setLastNameErrorMsg] = useState(null);
   const [firstNameErrorMsg, setFirstNameErrorMsg] = useState(null);
