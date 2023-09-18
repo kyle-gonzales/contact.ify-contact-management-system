@@ -1,22 +1,26 @@
-import cookies from "js-cookie";
-import jwtDecode from "jwt-decode";
 import { useEffect, useState } from "react";
+import useContactifyGetRequest from "./useContactifyGetRequest";
+
+const defaultUser = {
+  userName: "",
+};
 
 const useUser = (router) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(defaultUser);
+  const { get, loadingState } = useContactifyGetRequest("users", router);
 
   useEffect(() => {
-    const token = cookies.get("jwt_authorization");
-    if (!token) {
-      router.push("/auth/login");
-      return;
-    }
-    const decodedUser = jwtDecode(token);
-    console.log(decodedUser);
-    setUser(decodedUser);
-  }, [router]);
+    const fetchUser = async () => {
+      const user = await get();
+      setUser(user ?? defaultUser);
+    };
+    fetchUser();
+  }, [get]);
 
-  return { user, setUser };
+  return {
+    user,
+    setUser,
+  };
 };
 
 export default useUser;
