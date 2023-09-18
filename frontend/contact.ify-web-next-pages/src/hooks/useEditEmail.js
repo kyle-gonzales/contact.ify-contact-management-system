@@ -17,11 +17,6 @@ const useEditEmail = (
   const [newEmailErrorMsg, setNewEmailErrorMsg] = useState(null);
 
   useEffect(() => {
-    if (!contact) return;
-    setContactId(contact.contactId);
-  }, [contact]);
-
-  useEffect(() => {
     if (!selectedEmail) return;
     setNewEmailErrorMsg(null);
     setNewEmail((current) => ({
@@ -30,6 +25,12 @@ const useEditEmail = (
       contactEmailId: selectedEmail.contactEmailId,
     }));
   }, [selectedEmail]);
+
+  useEffect(() => {
+    if (!contact) return;
+    setContactId(contact.contactId);
+  }, [contact]);
+
   const {
     put,
     loadingState,
