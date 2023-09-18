@@ -1,5 +1,6 @@
 import { useState } from "react";
 import EditButton from "./EditButton";
+import Button from "react-bootstrap/Button";
 
 const PhoneNumberItem = ({ phoneNumber, onEditClicked }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -16,7 +17,13 @@ const PhoneNumberItem = ({ phoneNumber, onEditClicked }) => {
       className="d-flex align-items-center"
     >
       <span className="">{phoneNumber.phoneNumber}</span>
-      {isHovered && <EditButton onEditClicked={onEditClicked} />}
+      {isHovered ? (
+        <EditButton onEditClicked={onEditClicked} />
+      ) : (
+        <Button size="sm" style={{ visibility: "hidden" }}>
+          Edit
+        </Button>
+      )}
     </div>
   );
 };
