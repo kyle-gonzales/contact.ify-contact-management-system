@@ -8,7 +8,7 @@ const useContactifyPutRequest = (endpoint, router) => {
   const [loadingState, setLoadingState] = useState(null);
 
   const put = useCallback(
-    async (body) => {
+    async (body, isBodyString = false) => {
       setLoadingState(loadingStatus.isLoading);
 
       try {
@@ -28,13 +28,16 @@ const useContactifyPutRequest = (endpoint, router) => {
         if (!endpoint) return;
 
         //PUT
+        const bodyValue = isBodyString
+          ? body
+          : JSON.stringify({ userId, ...body });
         const options = {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ userId, ...body }),
+          body: bodyValue,
         };
         const response = await fetch(`${API_BASE_URL}/${endpoint}`, options); //specific PUT hook handles errors
         console.log(response);
