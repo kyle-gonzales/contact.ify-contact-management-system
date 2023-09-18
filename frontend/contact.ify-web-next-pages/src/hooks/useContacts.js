@@ -19,7 +19,7 @@ const useContacts = (router) => {
         ? []
         : contacts
             .filter((contact) => contact.isFavorite == true)
-            .sort((contact) => contact.lastName),
+            .sort((contact) => contact.lastName || (contact.firstName ?? "")),
     [contacts]
   );
 
