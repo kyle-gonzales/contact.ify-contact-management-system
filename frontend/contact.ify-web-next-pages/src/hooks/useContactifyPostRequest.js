@@ -8,7 +8,7 @@ const useContactifyPostRequest = (endpoint, router) => {
   const [loadingState, setLoadingState] = useState(null);
 
   const post = useCallback(
-    async (body, isBodyString=false) => {
+    async (body, isBodyString = false) => {
       setLoadingState(loadingStatus.isLoading);
 
       try {
@@ -27,7 +27,9 @@ const useContactifyPostRequest = (endpoint, router) => {
         // https://github.com/vercel/next.js/discussions/11484
         if (!endpoint) return;
 
-        const bodyValue = isBodyString ? body : JSON.stringify({ userId, ...body })
+        const bodyValue = isBodyString
+          ? body
+          : JSON.stringify({ userId, ...body });
 
         //POST
         const options = {
