@@ -15,6 +15,12 @@ import ContactPhoneNumberForm from "@/components/ContactPhoneNumberForm";
 import ContactAddressForm from "@/components/ContactAddressForm";
 import useAddAddress from "@/hooks/useAddAddress";
 import useEditEmail from "@/hooks/useEditEmail";
+import useEditPhoneNumber from "@/hooks/useEditPhoneNumber";
+import useEditAddress from "@/hooks/useEditAddress";
+import useDeleteEmail from "@/hooks/useDeleteEmail";
+import useDeletePhoneNumber from "@/hooks/useDeletePhoneNumber";
+import useDeleteAddress from "@/hooks/useDeleteAddress";
+import useDeleteContact from "@/hooks/useDeleteContact";
 
 const Contact = () => {
   const router = useRouter();
@@ -30,7 +36,6 @@ const Contact = () => {
   const [showAddEmail, setShowAddEmail] = useState(false);
   const handleCloseAddEmail = () => setShowAddEmail(false);
   const handleShowAddEmail = () => setShowAddEmail(true);
-
   const [showEditEmail, setShowEditEmail] = useState(false);
   const handleCloseEditEmail = () => {
     setShowEditEmail(false);
@@ -44,18 +49,28 @@ const Contact = () => {
   const [showAddPhoneNumber, setShowAddPhoneNumber] = useState(false);
   const handleCloseAddPhoneNumber = () => setShowAddPhoneNumber(false);
   const handleShowAddPhoneNumber = () => setShowAddPhoneNumber(true);
+  const [showEditPhoneNumber, setShowEditPhoneNumber] = useState(false);
+  const handleCloseEditPhoneNumber = () => {
+    setShowEditPhoneNumber(false);
+    setSelectedPhoneNumber(null);
+  };
+  const handleShowEditPhoneNumber = (phoneNumber) => {
+    setShowEditPhoneNumber(true);
+    setSelectedPhoneNumber(phoneNumber);
+  };
 
   const [showAddAddress, setShowAddAddress] = useState(false);
   const handleCloseAddAddress = () => setShowAddAddress(false);
   const handleShowAddAddress = () => setShowAddAddress(true);
-
-  // const [showEditContactName, setShowEditContactName] = useState(false);
-  // const handleCloseEditContactName = () => setShowEditContactName(false);
-  // const handleShowEditContactName = () => setShowEditContactName(true);
-
-  // const [showEditContactName, setShowEditContactName] = useState(false);
-  // const handleCloseEditContactName = () => setShowEditContactName(false);
-  // const handleShowEditContactName = () => setShowEditContactName(true);
+  const [showEditAddress, setShowEditAddress] = useState(false);
+  const handleCloseEditAddress = () => {
+    setShowEditAddress(false);
+    setSelectedAddress(null);
+  };
+  const handleShowEditAddress = (address) => {
+    setShowEditAddress(true);
+    setSelectedAddress(address);
+  };
 
   const { contact, setContact, loadingState } = useContact(router);
   const { patchIsFavorite } = useIsFavoriteByContact(contact, setContact);
@@ -66,7 +81,7 @@ const Contact = () => {
     editContactName,
     newContact,
     setNewContact,
-    
+
     firstNameErrorMsg,
     setFirstNameErrorMsg,
     lastNameErrorMsg,
@@ -74,6 +89,12 @@ const Contact = () => {
   } = useEditContactName(
     contact,
     setContact,
+    handleCloseEditContactName,
+    router
+  );
+
+  const { deleteContact } = useDeleteContact(
+    contact,
     handleCloseEditContactName,
     router
   );
@@ -111,6 +132,15 @@ const Contact = () => {
     handleCloseEditEmail,
     router
   );
+
+  const { deleteEmail } = useDeleteEmail(
+    contact,
+    setContact,
+    selectedEmail,
+    handleCloseEditEmail,
+    router
+  );
+
   const {
     setAddPhoneNumberLoadingState,
 
@@ -120,12 +150,38 @@ const Contact = () => {
 
     phoneNumberErrorMsg,
     setPhoneNumberErrorMsg,
-  } = useAddPhoneNumber(contact, setContact ,handleCloseAddPhoneNumber, router);
+  } = useAddPhoneNumber(contact, setContact, handleCloseAddPhoneNumber, router);
+
+  const {
+    setEditPhoneNumberLoadingState,
+
+    editPhoneNumber,
+    newPhoneNumber,
+    setNewPhoneNumber,
+
+    newPhoneNumberErrorMsg,
+    setNewPhoneNumberErrorMsg,
+  } = useEditPhoneNumber(
+    contact,
+    setContact,
+    selectedPhoneNumber,
+    handleCloseEditPhoneNumber,
+    router
+  );
+
+  const { deletePhoneNumber } = useDeletePhoneNumber(
+    contact,
+    setContact,
+    selectedPhoneNumber,
+    handleCloseEditPhoneNumber,
+    router
+  );
 
   const {
     addAddress,
     address,
     setAddress,
+
     streetErrorMsg,
     setStreetErrorMsg,
     cityErrorMsg,
@@ -140,6 +196,39 @@ const Contact = () => {
     setAddressTypeErrorMsg,
   } = useAddAddress(contact, setContact, handleCloseAddAddress, router);
 
+  const {
+    editAddress,
+    newAddress,
+    setNewAddress,
+
+    newStreetErrorMsg,
+    setNewStreetErrorMsg,
+    newCityErrorMsg,
+    setNewCityErrorMsg,
+    newProvinceErrorMsg,
+    setNewProvinceErrorMsg,
+    newCountryErrorMsg,
+    setNewCountryErrorMsg,
+    newZipCodeErrorMsg,
+    setNewZipCodeErrorMsg,
+    newAddressTypeErrorMsg,
+    setNewAddressTypeErrorMsg,
+  } = useEditAddress(
+    contact,
+    setContact,
+    selectedAddress,
+    handleCloseEditAddress,
+    router
+  );
+
+  const { deleteAddress } = useDeleteAddress(
+    contact,
+    setContact,
+    selectedAddress,
+    handleCloseEditAddress,
+    router
+  );
+
   if (loadingState !== loadingStatus.loaded)
     return <LoadingIndicator loadingState={loadingState} />;
 
@@ -151,6 +240,7 @@ const Contact = () => {
         show={showEditContactName}
         isAdd={false}
         type="Contact Name"
+        deleteItem={deleteContact}
       >
         <ContactNameForm
           submitForm={editContactName}
@@ -179,6 +269,22 @@ const Contact = () => {
       </ContactModal>
 
       <ContactModal
+        show={showEditEmail}
+        handleClose={handleCloseEditEmail}
+        isAdd={false}
+        type="Email"
+        deleteItem={deleteEmail}
+      >
+        <ContactEmailForm
+          submitForm={editEmail}
+          email={newEmail}
+          setEmail={setNewEmail}
+          emailErrorMsg={newEmailErrorMsg}
+          setEmailErrorMsg={setNewEmailErrorMsg}
+        />
+      </ContactModal>
+
+      <ContactModal
         handleClose={handleCloseAddPhoneNumber}
         setShow={setShowAddPhoneNumber}
         show={showAddPhoneNumber}
@@ -191,6 +297,23 @@ const Contact = () => {
           setPhoneNumber={setPhoneNumber}
           phoneNumberErrorMsg={phoneNumberErrorMsg}
           setPhoneNumberErrorMsg={setPhoneNumberErrorMsg}
+        />
+      </ContactModal>
+
+      <ContactModal
+        handleClose={handleCloseEditPhoneNumber}
+        setShow={setShowEditPhoneNumber}
+        show={showEditPhoneNumber}
+        isAdd={false}
+        type="Phone Number"
+        deleteItem={deletePhoneNumber}
+      >
+        <ContactPhoneNumberForm
+          submitForm={editPhoneNumber}
+          phoneNumber={newPhoneNumber}
+          setPhoneNumber={setNewPhoneNumber}
+          phoneNumberErrorMsg={newPhoneNumberErrorMsg}
+          setPhoneNumberErrorMsg={setNewPhoneNumberErrorMsg}
         />
       </ContactModal>
 
@@ -221,17 +344,29 @@ const Contact = () => {
       </ContactModal>
 
       <ContactModal
-        show={showEditEmail}
-        handleClose={handleCloseEditEmail}
+        handleClose={handleCloseEditAddress}
+        setShow={setShowEditAddress}
+        show={showEditAddress}
         isAdd={false}
-        type="Email"
+        type="Address"
+        deleteItem={deleteAddress}
       >
-        <ContactEmailForm
-          submitForm={editEmail}
-          email={newEmail}
-          setEmail={setNewEmail}
-          emailErrorMsg={newEmailErrorMsg}
-          setEmailErrorMsg={setNewEmailErrorMsg}
+        <ContactAddressForm
+          submitForm={editAddress}
+          address={newAddress}
+          setAddress={setNewAddress}
+          streetErrorMsg={newStreetErrorMsg}
+          setStreetErrorMsg={setNewStreetErrorMsg}
+          cityErrorMsg={newCityErrorMsg}
+          setCityErrorMsg={setNewCityErrorMsg}
+          provinceErrorMsg={newProvinceErrorMsg}
+          setProvinceErrorMsg={setNewProvinceErrorMsg}
+          countryErrorMsg={newCountryErrorMsg}
+          setCountryErrorMsg={setNewCountryErrorMsg}
+          zipCodeErrorMsg={newZipCodeErrorMsg}
+          setZipCodeErrorMsg={setNewZipCodeErrorMsg}
+          addressTypeErrorMsg={newAddressTypeErrorMsg}
+          setAddressTypeErrorMsg={setNewAddressTypeErrorMsg}
         />
       </ContactModal>
 
@@ -243,66 +378,10 @@ const Contact = () => {
         handleShowAddEmail={handleShowAddEmail}
         handleShowEditEmail={handleShowEditEmail}
         handleShowAddPhoneNumber={handleShowAddPhoneNumber}
-        handleShowEditPhoneNumber={() => {}}
+        handleShowEditPhoneNumber={handleShowEditPhoneNumber}
         handleShowAddAddress={handleShowAddAddress}
-        handleShowEditAddress={() => {}}
+        handleShowEditAddress={handleShowEditAddress}
       />
-
-      {/*
-      <ContactModal
-        handleClose={handleCloseAddPhoneNumber}
-        setShow={setShowAddPhoneNumber}
-        show={showAddPhoneNumber}
-        isAdd={true}
-        type="Phone Number"
-      >
-        <ContactPhoneNumberForm
-          submitForm={addPhoneNumber}
-          phoneNumber={phoneNumber}
-          setPhoneNumber={setPhoneNumber}
-          phoneNumberErrorMsg={phoneNumberErrorMsg}
-          setPhoneNumberErrorMsg={setPhoneNumberErrorMsg}
-        />
-      </ContactModal>
-
-      <ContactModal
-        handleClose={handleCloseAddAddress}
-        setShow={setShowAddAddress}
-        show={showAddAddress}
-        isAdd={true}
-        type="Address"
-      >
-        <ContactAddressForm
-          submitForm={addAddress}
-          address={address}
-          setAddress={setAddress}
-          streetErrorMsg={streetErrorMsg}
-          setStreetErrorMsg={setStreetErrorMsg}
-          cityErrorMsg={cityErrorMsg}
-          setCityErrorMsg={setCityErrorMsg}
-          provinceErrorMsg={provinceErrorMsg}
-          setProvinceErrorMsg={setProvinceErrorMsg}
-          countryErrorMsg={countryErrorMsg}
-          setCountryErrorMsg={setCountryErrorMsg}
-          zipCodeErrorMsg={zipCodeErrorMsg}
-          setZipCodeErrorMsg={setZipCodeErrorMsg}
-          addressTypeErrorMsg={addressTypeErrorMsg}
-          setAddressTypeErrorMsg={setAddressTypeErrorMsg}
-        />
-      </ContactModal>
-
-      <ContactInfo
-        contact={contact}
-        patchIsFavorite={patchIsFavorite}
-        router={router}
-        handleShowEditContactName={handleShowEditContactName}
-        handleShowAddEmail={handleShowAddEmail}
-        handleShowEditEmail={() => {}}
-        handleShowAddPhoneNumber={handleShowAddPhoneNumber}
-        handleShowEditPhoneNumber={() => {}}
-        handleShowAddAddress={handleShowAddAddress}
-        handleShowEditAddress={() => {}}
-      /> */}
     </div>
   );
 };
