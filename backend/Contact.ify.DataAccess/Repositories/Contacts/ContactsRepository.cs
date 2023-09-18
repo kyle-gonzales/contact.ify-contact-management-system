@@ -60,6 +60,7 @@ public class ContactsRepository : IContactsRepository
                 c.UserId == userId &&
                 !c.IsDeleted)
             .OrderBy(c => c.LastName)
+            .ThenBy(c=> c.FirstName ?? "")
             .ToListAsync();
     }
 
