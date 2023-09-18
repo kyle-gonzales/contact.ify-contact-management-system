@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import useContactifyPostRequest from "./useContactifyPostRequest";
 import loadingStatus from "@/utils/loadingStatus";
-import isNullOrEmpty from "@/utils/isNullOrEmpty";
+import formatAddress from "@/utils/formatAddress";
 
 const defaultAddress = {
   city: "",
@@ -75,38 +75,14 @@ const useAddAddress = (contact, setContact, handleClose, router) => {
         const result = await response.text();
         address.contactAddressId = result;
 
-        const formatAddress = (address) => {
-          var result = "";
-
-          if (!isNullOrEmpty(address.street)) {
-            result += `${address.street}`;
-          }
-          if (!isNullOrEmpty(address.city)) {
-            if (isNullOrEmpty(result)) {
-              result += `${address.city}`;
-            } else {
-              result += `, ${address.city}`;
-            }
-          }
-          if (!isNullOrEmpty(address.province)) {
-            result += `, ${address.province}`;
-          }
-          if (!isNullOrEmpty(address.country)) {
-            result += `, ${address.country}`;
-          }
-          if (!isNullOrEmpty(address.zipCode)) {
-            result += `, ${address.zipCode}`;
-          }
-
-          return result;
-        };
-        const newAddress = {
+        const addressResponse = {
           contactAddressId: address.contactAddressId,
+          addressType : address.addressType,
           address: formatAddress(address),
         };
         setContact((current) => ({
           ...current,
-          addresses: [...current.addresses, newAddress],
+          addresses: [...current.addresses, addressResponse],
         }));
 
         setAddress(defaultAddress); //reset form
