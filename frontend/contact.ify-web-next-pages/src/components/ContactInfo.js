@@ -22,21 +22,21 @@ const ContactInfo = ({
     <Container>
       <Row className="justify-content-center">
         <Col md="10" xl="9" xxl="8">
-          <div className="d-flex align-items-center">
+          <div className="d-flex align-items-center edit-contact-nav">
             <i
               className="bi bi-arrow-left icon-hover"
               style={{
                 fontSize: "24px",
                 cursor: "pointer",
-                transition: "transform 0.3s",
+                transition: "color 0.3s ease",
               }}
               onClick={() => router.replace("/")}
             />
-            <h3 className="w-100 m-0 ps-2">Edit Contact</h3>
+            <h4 className="w-100 m-0 ps-2">Edit Contact</h4>
           </div>
           <Container>
             <Row className="">
-              <div className=" d-flex justify-content-center">
+              <div className=" d-flex justify-content-start">
                 <i
                   className="bi bi-person-circle"
                   style={{
@@ -70,7 +70,7 @@ const ContactInfo = ({
                   <tbody>
                     {contact.emails.map((email) => (
                       <tr key={email.contactEmailId}>
-                        <td>
+                        <td className="hover-effect">
                           <EmailItem
                             email={email}
                             onEditClicked={() => {
@@ -100,7 +100,7 @@ const ContactInfo = ({
                   <tbody>
                     {contact.phoneNumbers.map((phoneNumber) => (
                       <tr key={phoneNumber.contactPhoneNumberId}>
-                        <td>
+                        <td className="hover-effect">
                           <PhoneNumberItem
                             phoneNumber={phoneNumber}
                             onEditClicked={() => {
@@ -130,7 +130,7 @@ const ContactInfo = ({
                   <tbody>
                     {contact.addresses.map((address) => (
                       <tr key={address.contactAddressId}>
-                        <td>
+                        <td className="hover-effect">
                           <AddressItem
                             address={address}
                             onEditClicked={() => {

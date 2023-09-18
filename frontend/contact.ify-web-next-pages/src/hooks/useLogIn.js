@@ -29,8 +29,6 @@ const useLogIn = () => {
           return;
         }
         const token = await response.text();
-        // console.log(token);
-        // const decoded = jwtDecode(token);
 
         cookies.set("jwt_authorization", token, {
           expires: 1,

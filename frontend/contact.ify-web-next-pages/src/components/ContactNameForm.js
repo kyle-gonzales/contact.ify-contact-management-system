@@ -11,7 +11,7 @@ const ContactNameForm = ({
 }) => {
   const onValueChange = (e) => {
     const { name, value } = e.target;
-    setContact({ ...contact, [name]: value });
+    setContact({ ...contact, [name]: value.length === 0 ? null : value });
     if (name === "firstName") {
       if ((value.length > 1 && value.length <= 35) || value.length === 0) {
         setFirstNameErrorMsg(null);
@@ -56,7 +56,6 @@ const ContactNameForm = ({
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>First Name</Form.Label>
         <Form.Control
-          required
           type="text"
           placeholder="e.g. Mary Jane"
           value={contact.firstName}

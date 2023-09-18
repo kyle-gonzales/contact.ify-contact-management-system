@@ -1,7 +1,7 @@
 const loadingStatus = {
   loaded: "loaded",
   isLoading: "Loading...",
-  hasErrored: "An error occured while loading",
+  hasErrored: "An error occurred while loading",
 };
 
 export default loadingStatus;

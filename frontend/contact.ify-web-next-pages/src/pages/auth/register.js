@@ -57,7 +57,7 @@ const Register = () => {
 
   return (
     <div className="d-flex flex-column vh-100 align-items-center justify-content-center">
-      <Card className="auth-card">
+      <Card className="auth-card my-shadow">
         <div className="mx-5 my-4">
           <Card.Img src="/Contact.ify-black.svg" alt="Logo" />
         </div>

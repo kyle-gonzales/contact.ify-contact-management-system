@@ -14,7 +14,6 @@ export default function Home() {
 
   if (loadingState !== loadingStatus.loaded)
     return <LoadingIndicator loadingState={loadingState} />;
-  // use placeholder
 
   if (!contacts || contacts.length == 0)
     return (
@@ -29,8 +28,12 @@ export default function Home() {
         <Table borderless={true} hover={true} responsive>
           <thead>
             <tr>
-              <th>Last Name</th>
-              <th>First Name</th>
+              <th>
+                <h5>Last Name</h5>
+              </th>
+              <th>
+                <h5>First Name</h5>
+              </th>
             </tr>
             <tr>
               <td className="small text-muted" colSpan={3}>
@@ -40,7 +43,7 @@ export default function Home() {
           </thead>
           <tbody>
             {favorites.map((contact) => (
-              <tr key={contact.id} class="w-25">
+              <tr key={contact.id} className="hover-effect">
                 <td
                   onClick={() => router.push(`/contacts/${contact.contactId}`)}
                 >
@@ -56,6 +59,7 @@ export default function Home() {
                     patchIsFavorite(`contacts/${contact.contactId}`, contact)
                   }
                   style={{ cursor: "pointer" }}
+                  className="hover-effect"
                 >
                   {contact.isFavorite ? (
                     <i className="bi bi-star-fill align-middle" />
@@ -91,6 +95,7 @@ export default function Home() {
                     patchIsFavorite(`contacts/${contact.contactId}`, contact)
                   }
                   style={{ cursor: "pointer" }}
+                  className="hover-effect"
                 >
                   {contact.isFavorite ? (
                     <i className="bi bi-star-fill align-middle" />
