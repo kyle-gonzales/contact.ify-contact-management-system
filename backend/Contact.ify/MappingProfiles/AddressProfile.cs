@@ -37,7 +37,15 @@ public class AddressProfile : Profile
         }
         if (!string.IsNullOrEmpty(address.City))
         {
-            result += $", {address.City}";
+            if (string.IsNullOrEmpty(result))
+            {
+                result += $"{address.City}";
+                
+            }
+            else
+            {
+                result += $", {address.City}";
+            }
         }
         if (!string.IsNullOrEmpty(address.Province))
         {
