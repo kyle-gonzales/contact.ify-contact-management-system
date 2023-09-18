@@ -20,7 +20,7 @@ A full-stack web solution for managing your contact information.
 - ASP.Net Core 6 Web API with C#
 - Authentication with JSON Web Token
 
-## Architecture
+## Architecture:
 Contact.ify follows the traditional MVC architecture.
 ### Frontend Architecture:
 The frontend of Contact.ify follows the [Page Router](https://nextjs.org/docs/pages/building-your-application/routing) (file-system based router) of Next.js. Reusable components are stored in `components/`, custom hooks are stored in `hooks/`, etc.
