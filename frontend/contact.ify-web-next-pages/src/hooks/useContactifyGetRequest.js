@@ -11,6 +11,7 @@ const useContactifyGetRequest = (endpoint, router) => {
     try {
       //validate token
       const token = cookies.get("jwt_authorization");
+      let result = null;
       if (!token) {
         router.push("/auth/login");
         return;
@@ -26,14 +27,17 @@ const useContactifyGetRequest = (endpoint, router) => {
       const options = { headers: headers };
       const response = await fetch(`${API_BASE_URL}/${endpoint}`, options);
 
-      //TODO: add error handling
-
-      const result = await response.json();
-
+      if (response.status === 204) {
+        result = null;
+      } else if (response.status === 200) {
+        console.log(response);
+        result = await response.json();
+        console.log(result);
+      }
       setLoadingState(loadingStatus.loaded);
-      // console.log(result);
       return result;
-    } catch {
+    } catch (error) {
+      console.log(error);
       setLoadingState(loadingStatus.hasErrored);
     }
   }, [endpoint, router]);
