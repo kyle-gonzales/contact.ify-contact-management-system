@@ -118,3 +118,83 @@ a {
 .save-button {
   width: 70px;
 }
+
+.hover-effect {
+  color: #000;
+  transition: color 0.3s ease;
+}
+
+.hover-effect:hover {
+  color: #007bff;
+}
+
+/* .edit-contact-nav {
+  width: 100%;
+  background-color: white;
+  z-index: 1000;
+  top: 70px;
+  margin-top: 0;
+} */
+
+.side-panel {
+  width: 0;
+  position: fixed;
+  top: 0;
+  left: -300px;
+  height: 100%;
+  background-color: #f8f9fa;
+  overflow-x: hidden;
+  transition: 0.3s;
+  z-index: 1000;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  top: 60px;
+}
+
+.side-panel.open {
+  width: 300px;
+  left: 0;
+}
+
+.side-panel-content {
+  padding: 20px;
+  color: white;
+  z-index: 1001;
+}
+
+.navbar-toggler-icon {
+  color: white;
+  cursor: pointer;
+}
+
+.my-shadow {
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.navbar-shadow {
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+
+.icon-btn {
+  color: black;
+  transition: color 0.3 ease;
+}
+
+.icon-btn:hover {
+  color: #007bff;
+  cursor: pointer;
+}
+
+.search-icon {
+  color: #71757a;
+
+
+  width: 100%;
+}
+
+.text-light-gray {
+  color: #ABB5BE;
+}
+
+.my-vh-75 {
+  height: 50vh !important;
+}
