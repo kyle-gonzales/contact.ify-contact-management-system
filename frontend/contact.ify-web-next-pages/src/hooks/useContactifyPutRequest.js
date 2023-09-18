@@ -4,11 +4,11 @@ import cookies from "js-cookie";
 import { API_BASE_URL } from "../../config";
 import jwtDecode from "jwt-decode";
 
-const useContactifyPostRequest = (endpoint, router) => {
+const useContactifyPutRequest = (endpoint, router) => {
   const [loadingState, setLoadingState] = useState(null);
 
-  const post = useCallback(
-    async (body) => {
+  const put = useCallback(
+    async (body, isBodyString = false) => {
       setLoadingState(loadingStatus.isLoading);
 
       try {
@@ -27,16 +27,19 @@ const useContactifyPostRequest = (endpoint, router) => {
         // https://github.com/vercel/next.js/discussions/11484
         if (!endpoint) return;
 
-        //POST
+        //PUT
+        const bodyValue = isBodyString
+          ? body
+          : JSON.stringify({ userId, ...body });
         const options = {
-          method: "POST",
+          method: "PUT",
           headers: {
             "Content-Type": "application/json",
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({ userId, ...body }),
+          body: bodyValue,
         };
-        const response = await fetch(`${API_BASE_URL}/${endpoint}`, options); //specific POST hook handles errors
+        const response = await fetch(`${API_BASE_URL}/${endpoint}`, options); //specific PUT hook handles errors
         console.log(response);
 
         setLoadingState(loadingStatus.loaded);
@@ -48,7 +51,7 @@ const useContactifyPostRequest = (endpoint, router) => {
     [endpoint, router]
   );
 
-  return { post, loadingState, setLoadingState };
+  return { put, loadingState, setLoadingState };
 };
 
-export default useContactifyPostRequest;
+export default useContactifyPutRequest;

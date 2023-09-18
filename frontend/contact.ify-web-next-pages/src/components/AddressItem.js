@@ -1,7 +1,8 @@
 import { useState } from "react";
 import EditButton from "./EditButton";
+import Button from "react-bootstrap/Button";
 
-const AddressItem = ({ address }) => {
+const AddressItem = ({ address, onEditClicked }) => {
   const [isHovered, setIsHovered] = useState(false);
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -13,9 +14,16 @@ const AddressItem = ({ address }) => {
     <div
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      className="d-flex align-items-center"
     >
-      {address.address}
-      {isHovered && <EditButton />}
+      <span>{address.address}</span>
+      {isHovered ? (
+        <EditButton onEditClicked={onEditClicked} />
+      ) : (
+        <Button size="sm" style={{ visibility: "hidden" }}>
+          Edit
+        </Button>
+      )}
     </div>
   );
 };

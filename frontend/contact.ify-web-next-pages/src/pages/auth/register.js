@@ -135,15 +135,6 @@ const Register = () => {
             </Button>
           </Form>
         </Card.Body>
-        {/* {loadingState === loadingStatus.hasErrored && (
-          <Card.Footer className="bg-white">
-            <div
-              className="small text-danger text-center text-wrap m-auto"
-              style={{ width: "90%" }}
-            >
-            </div>
-          </Card.Footer>
-        )} */}
       </Card>
       <p className="mt-3">
         Already have an account?
