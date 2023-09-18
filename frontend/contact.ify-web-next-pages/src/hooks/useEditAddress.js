@@ -55,7 +55,7 @@ const useEditAddress = (
 
     setNewAddress(() => ({
       addressType: selectedAddress.addressType,
-      city: selectedAddress.address,
+      // city: selectedAddress.address,
       contactAddressId: selectedAddress.contactAddressId,
     }));
   }, [selectedAddress]);
