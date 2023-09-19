@@ -9,7 +9,7 @@ public class ContactEmail
 
     [Required] [ForeignKey("ContactId")] public Contact Contact { get; set; } = null!;
 
-    [EmailAddress]
+    [RegularExpression(@"\S+@\S+\.\S+")]
     [MinLength(4)]
     [MaxLength(255)]
     public string Email { get; set; } = string.Empty;

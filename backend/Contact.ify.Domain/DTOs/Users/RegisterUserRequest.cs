@@ -22,7 +22,7 @@ public class RegisterUserRequest
     [MaxLength(35, ErrorMessage = "Surname must not exceed 35 characters")]
     public string? LastName { get; set; }
     
-    [EmailAddress(ErrorMessage = "The input email is invalid")]
+    [RegularExpression(@"\S+@\S+\.\S+", ErrorMessage = "Email is in an invalid format")]
     [MinLength(4, ErrorMessage = "Email must be at least 4 characters long")]
     [MaxLength(255, ErrorMessage = "Email must not exceed 255 characters")]
     public string? Email { get; set; }

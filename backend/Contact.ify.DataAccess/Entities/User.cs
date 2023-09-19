@@ -16,7 +16,7 @@ public class User
     [MaxLength(35)]
     public string? LastName { get; set; }
     
-    [EmailAddress]
+    [RegularExpression(@"\S+@\S+\.\S+")]
     [MinLength(4)]
     [MaxLength(255)]
     public string? Email { get; set; }
