@@ -20,6 +20,7 @@ const useUser = (router) => {
   return {
     user,
     setUser,
+    loadingState,
   };
 };
 

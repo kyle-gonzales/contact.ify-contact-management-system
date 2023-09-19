@@ -14,15 +14,14 @@ const useContact = (router) => {
   const endpoint = router.query.id ? `contacts/${router.query.id}` : null;
 
   const [contact, setContact] = useState(emptyContact);
-  const { get, loadingState } = useContactifyGetRequest(
-    endpoint,
-    router
-  );
+  const { get, loadingState } = useContactifyGetRequest(endpoint, router);
   useEffect(() => {
     const fetchContactById = async () => {
       const result = await get();
       // console.log(result);
-      setContact(result);
+      if (result != null) {
+        setContact(result);
+      }
     };
     fetchContactById();
   }, [get]);

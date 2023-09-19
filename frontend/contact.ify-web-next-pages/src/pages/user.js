@@ -1,8 +1,10 @@
 import ContactModal from "@/components/ContactModal";
 import CustomToggle from "@/components/CustomToggle";
+import LoadingIndicator from "@/components/LoadingIndicator";
 import UserForm from "@/components/UserForm";
 import useEditUser from "@/hooks/useEditUser";
 import useUser from "@/hooks/useUser";
+import loadingStatus from "@/utils/loadingStatus";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Container, Dropdown, Row } from "react-bootstrap";
@@ -25,15 +27,7 @@ const User = () => {
     setNewUser(defaultUser);
   };
 
-  // const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
-  // const handleShowDeleteConfirmation = () => {
-  //   setShowDeleteConfirmation(true);
-  // };
-  // const handleCloseDeleteConfirmation = () => {
-  //   setShowDeleteConfirmation(false);
-  // };
-
-  const { user, setUser } = useUser(router);
+  const { user, setUser, loadingState } = useUser(router);
 
   const {
     editUser,
@@ -52,6 +46,9 @@ const User = () => {
     handleCloseEditUser,
     router
   );
+
+  if (loadingState !== loadingStatus.loaded)
+    return <LoadingIndicator loadingState={loadingState} />;
 
   return (
     <div>

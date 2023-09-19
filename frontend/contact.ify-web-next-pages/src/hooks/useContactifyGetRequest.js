@@ -29,12 +29,15 @@ const useContactifyGetRequest = (endpoint, router) => {
 
       if (response.status === 204) {
         result = null;
+        setLoadingState(loadingStatus.loaded);
       } else if (response.status === 200) {
         console.log(response);
         result = await response.json();
         console.log(result);
+        setLoadingState(loadingStatus.loaded);
+      } else if (response.status > 400 && response.status <= 499) {
+        setLoadingState(loadingStatus.notFound);
       }
-      setLoadingState(loadingStatus.loaded);
       return result;
     } catch (error) {
       console.log(error);
