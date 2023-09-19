@@ -38,7 +38,7 @@ const New = () => {
               }}
               onClick={() => router.replace("/")}
             />
-            <h4 className="w-100 m-0 ps-2">Edit Contact</h4>
+            <h4 className="w-100 m-0 ps-2">New Contact</h4>
             <div>
               <Button
                 form="contactForm"
