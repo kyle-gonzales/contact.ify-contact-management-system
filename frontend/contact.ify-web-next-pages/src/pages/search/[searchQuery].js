@@ -14,7 +14,9 @@ const Search = () => {
     if (!searchQuery || !contacts) return [];
     return contacts.filter((contact) => {
       const query = searchQuery.toLowerCase();
-      const firstName = contact.firstName.toLowerCase();
+      const firstName = contact.firstName
+        ? contact.firstName.toLowerCase()
+        : "";
       const lastName = contact.lastName.toLowerCase();
 
       return firstName.includes(query) || lastName.includes(query);
