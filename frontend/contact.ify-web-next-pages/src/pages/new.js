@@ -9,7 +9,6 @@ import useNewContact from "@/hooks/useNewContact";
 import ContactNameForm from "@/components/ContactNameForm";
 import LoadingIndicator from "@/components/LoadingIndicator";
 
-// should have the state of the count
 const New = () => {
   const router = useRouter();
 
@@ -24,9 +23,6 @@ const New = () => {
     lastNameErrorMsg,
     setLastNameErrorMsg,
   } = useNewContact(router);
-
-  if (loadingState !== loadingStatus.loaded)
-    return <LoadingIndicator loadingState={loadingState} />;
 
   return (
     <Container>
