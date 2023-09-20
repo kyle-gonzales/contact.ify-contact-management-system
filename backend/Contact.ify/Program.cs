@@ -122,8 +122,8 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 // app.UseExceptionHandler("/Error");
-
-app.UseHttpsRedirection();
+if(app.Environment.IsProduction())
+    app.UseHttpsRedirection();
 
 app.UseRouting();
 
