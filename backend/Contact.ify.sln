@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33815.320
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact.ify", ".\Contact.ify\Contact.ify.csproj", "{32F4945A-3907-4CE3-AFD2-C13745393F17}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact.ify", "Contact.ify\Contact.ify.csproj", "{32F4945A-3907-4CE3-AFD2-C13745393F17}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contact.ify.DataAccess", ".\Contact.ify.DataAccess\Contact.ify.DataAccess.csproj", "{7DD622F6-C0D9-46A6-9394-51F1EEE71AB6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact.ify.DataAccess", "Contact.ify.DataAccess\Contact.ify.DataAccess.csproj", "{7DD622F6-C0D9-46A6-9394-51F1EEE71AB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contact.ify.Domain", ".\Contact.ify.Domain\Contact.ify.Domain.csproj", "{70F4B476-AB23-4EEF-8F8B-8B2A3F15A80A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contact.ify.Domain", "Contact.ify.Domain\Contact.ify.Domain.csproj", "{70F4B476-AB23-4EEF-8F8B-8B2A3F15A80A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

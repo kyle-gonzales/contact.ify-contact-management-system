@@ -28,14 +28,14 @@ builder.Services.AddSwaggerGen(setup =>
         var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
         var xmlCommentsFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
         setup.IncludeXmlComments(xmlCommentsFullPath);
-        
+
         setup.SwaggerDoc("v1", new OpenApiInfo
         {
             Title = "Contact.ify API",
             Description = "An ASP.NET Core Web API for managing contact information",
             Version = "v1"
         });
-        
+
         setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
         {
             In = ParameterLocation.Header,
@@ -45,7 +45,7 @@ builder.Services.AddSwaggerGen(setup =>
             BearerFormat = "JWT",
             Scheme = "Bearer"
         });
-        
+
         setup.AddSecurityRequirement(
             new OpenApiSecurityRequirement
             {
@@ -63,7 +63,7 @@ builder.Services.AddSwaggerGen(setup =>
             }
         );
     }
-        
+
 );
 
 builder.Services.AddDbContext<ContactsContext>(options =>
@@ -80,7 +80,7 @@ builder.Services
                 ValidateAudience = true,
                 ValidateIssuerSigningKey = true,
                 ValidateLifetime = true,
-                
+
                 ValidIssuer = builder.Configuration.GetSection("Authentication:Issuer").Value,
                 ValidAudience = builder.Configuration.GetSection("Authentication:Audience").Value,
                 IssuerSigningKey =new SymmetricSecurityKey(
@@ -89,7 +89,7 @@ builder.Services
         }
     );
 
-builder.Services.AddCors(policy => 
+builder.Services.AddCors(policy =>
     policy.AddPolicy("Contact.ifyPolicy", build =>
         {
             build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
@@ -105,14 +105,12 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
+// Configure the HTTP request pipeline. 
 app.UseProblemDetails();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
+
 // app.UseExceptionHandler("/Error");
 
 app.UseHttpsRedirection();
@@ -126,5 +124,16 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<ContactsContext>();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
 
 app.Run();
