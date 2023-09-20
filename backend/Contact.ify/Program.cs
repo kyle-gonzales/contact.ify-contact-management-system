@@ -12,6 +12,9 @@ using Hellang.Middleware.ProblemDetails;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -95,6 +98,13 @@ builder.Services.AddCors(policy =>
             build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
         }));
 
+builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@"C:\temp-keys\"))
+                .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration()
+                {
+                    EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+                    ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+                });
+
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUsersService, UsersService>();
 builder.Services.AddScoped<IContactsService, ContactsService>();
@@ -105,7 +115,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline. 
+// Configure the HTTP request pipeline.
 app.UseProblemDetails();
 
 app.UseSwagger();
