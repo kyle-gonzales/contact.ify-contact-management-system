@@ -26,6 +26,7 @@ services:
   db:
     container_name: contactify-db
     image: "mcr.microsoft.com/mssql/server:2019-latest"
+    user: root
     ports:
       - "1433:1433"
     environment:
