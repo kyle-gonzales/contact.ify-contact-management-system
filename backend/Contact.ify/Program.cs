@@ -98,12 +98,12 @@ builder.Services.AddCors(policy =>
             build.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
         }));
 
-builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(@"C:\temp-keys\"))
-                .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration()
-                {
-                    EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
-                    ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
-                });
+// builder.Services.AddDataProtection()
+//                 .UseCryptographicAlgorithms(new AuthenticatedEncryptorConfiguration()
+//                 {
+//                     EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+//                     ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+//                 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IUsersService, UsersService>();
