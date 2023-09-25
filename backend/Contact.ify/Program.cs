@@ -123,7 +123,7 @@ app.UseSwaggerUI();
 
 // app.UseExceptionHandler("/Error");
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseRouting();
 
